@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from unit import unit
-from scheduler import scheduler
+from scheduler import Scheduler
 
 class execution_macro:
     def __init__(self,cfg_dct):
@@ -31,7 +31,7 @@ class execution_macro:
             self.misc_units.append(unit(cfg_dct["misc_unit"]))
 
 
-        self.sched                  = scheduler('inner',[])
+        self.sched                  = Scheduler('inner',[])
 
         self.execution_units = self.store_load_units \
                              + self.alu_units \

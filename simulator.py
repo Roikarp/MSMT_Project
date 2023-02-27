@@ -7,7 +7,7 @@ from time import sleep
 sys.path.insert(1, f'{os.getcwd()}/classes')
 from thread import thread
 from execution_macro import execution_macro
-from scheduler import scheduler
+from scheduler import Scheduler, RoundRobinScheduler, LRUScheduler
 from cycle import *
 
 with open(f'{os.getcwd()}/cfg/threads.cfg') as f:
@@ -22,7 +22,7 @@ with open(f'{os.getcwd()}/cfg/execution_macro.cfg') as f:
     cfg_dct = ast.literal_eval(f.read())
 execution_macro = execution_macro(cfg_dct) 
 
-scheduler = scheduler("outer", threads)
+scheduler = Scheduler("outer", threads)
 
 while set([t.is_done() for t in threads]) != {True}:
     # run all parts for 1 cycle
