@@ -20,13 +20,13 @@ class unit:
     def add_inst(self,cmd):
         self.cmd       = cmd
         self.cur_cycle = 0
-        self.missed    = random.random() < miss_rate
+        self.missed    = random.random() < self.miss_rate
 
     def active(self):
         if not self.cmd:
             return False
         if self.missed and self.cur_cycle >= self.miss_cycle:
-            self.cmd.set_missed(miss_penalty)
+            self.cmd.set_missed(self.miss_penalty)
             return False
         if self.cur_cycle == self.latency:
             self.cmd.set_done()

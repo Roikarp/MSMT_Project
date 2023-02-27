@@ -31,16 +31,15 @@ class execution_macro:
             self.misc_units.append(unit(cfg_dct["misc_unit"]))
 
 
-        self.sched                  = scheduler()
+        self.sched                  = scheduler('inner',[])
 
+        self.execution_units = self.store_load_units \
+                             + self.alu_units \
+                             + self.fp_units \
+                             + self.br_units \
+                             + self.misc_units 
     def run(self):
-        execution_units = self.store_load_units \
-                        + self.alu_units \
-                        + self.fp_units \
-                        + self.br_units \
-                        + self.misc_units 
-
-        for unit in execution_units:
+        for unit in self.execution_units:
             if not unit.active():
                 inst = unit.pop_inst_output()
                 if inst:
@@ -55,19 +54,21 @@ class execution_macro:
 
 
     def _get_inst_by_type(self,inst_type): #Scheduler
-        t = self.sched.choose_thread(inst_type)
+        t = self.sched.choose_thread(inst_type,self.inst_window_size)
         if t is None:
             return None
         return t.pop_by_type(inst_type,self.inst_window_size)
 
     def has_stuck_threads(self):
         for t in self.threads:
-            if t.stuck():
+            if t.is_missed():
                 return True
         return False
 
     def pop_stuck_threads(self):
-        stuck_threads = [t for t in self.threads if t.stuck()]
+        stuck_threads = [t for t in self.threads if t.is_missed()]
+        for t in stuck_threads:
+            self.sched.remove_thread(t)
         self.threads = [t for t in self.threads if t not in stuck_threads]
         return stuck_threads
 
@@ -77,5 +78,13 @@ class execution_macro:
     def add_thread(self,t):
         t.set_context_switch(self.context_switch_penalty)
         self.threads.append(t)
+        self.sched.add_thread(t)
         if len(self.threads) > self.max_threads:
             print("ERROR")
+
+    def pop_done_threads(self):
+        for t in self.threads:
+            if t.is_done():
+                t.state = 'done'
+                self.sched.remove_thread(t)
+        self.threads = [t for t in self.threads if not t.is_done()]
