@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import copy
 
+
 class Scheduler:
     def __init__(self, name, threads):
         self.threads = copy.copy(threads)
@@ -29,7 +30,7 @@ class Scheduler:
         return self.choose_thread_core()
 
     def choose_thread_core(self):
-        for v,t in zip(self.valid,self.threads):
+        for v, t in zip(self.valid,self.threads):
             if v:
                 return t
         return None

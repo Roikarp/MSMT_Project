@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from unit import unit
-from scheduler import Scheduler
+from scheduler import Scheduler, RoundRobinScheduler, LRUScheduler
 
 class execution_macro:
     def __init__(self,cfg_dct):

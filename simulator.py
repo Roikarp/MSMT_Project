@@ -22,7 +22,12 @@ with open(f'{os.getcwd()}/cfg/execution_macro.cfg') as f:
     cfg_dct = ast.literal_eval(f.read())
 execution_macro = execution_macro(cfg_dct) 
 
-scheduler = Scheduler("outer", threads)
+if cfg_dct['scheduler']['outer_policy'] == 'LRU':
+    scheduler = LRUScheduler("outer", threads)
+elif cfg_dct['scheduler']['outer_policy'] == 'Round Robin':
+    scheduler = RoundRobinScheduler("outer", threads)
+else:
+    scheduler = Scheduler("outer", threads)
 
 while set([t.is_done() for t in threads]) != {True}:
     # run all parts for 1 cycle
