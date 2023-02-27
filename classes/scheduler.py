@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 class scheduler:
-    def __init__(self):
-        self.threads = []
+    def __init__(self, name, threads):
+        self.threads = threads
         self.policy  = ""
-        self.name    = ""
+        self.name    = name
         self.valid   = []
 
     def add_thread(self,threads):

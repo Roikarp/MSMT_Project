@@ -45,7 +45,7 @@ def lines_to_cmd_l(lines,thread):
             for r in special_reg_names:
                 for er in [f'r{r}',f'e{r}',r,f'{r}l']:
                     if er in s:
-                            regs.append(r)
+                        regs.append(r)
 
         return regs , is_only_reg
 
@@ -64,7 +64,7 @@ def lines_to_cmd_l(lines,thread):
         cmd.cmd_type         = cmd_type
 
         # all commands that are in the shape of : [cmd_type] [something], [something]
-        if cmd_type in ['add','bt','sub','xor','pxor','or','and','cmp','test','mov','shl','shr','sar','lea']:
+        if cmd_type in ['add', 'bt', 'sub', 'xor', 'pxor', 'or', 'and', 'cmp', 'test', 'mov', 'shl', 'shr', 'sar', 'lea']:
             sides        = cmd_args.split(',')
             left , right = sides[0].strip() , sides[1].strip()
             # if right side is something like 'rax' or 'r11d'
@@ -79,15 +79,15 @@ def lines_to_cmd_l(lines,thread):
             # if left side is something like 'rax' or 'r11d'
             regs , is_only_reg = find_regs_in_str(left)
             if is_only_reg and len(regs) == 1:
-                if cmd_type not in ['mov','lea']:
+                if cmd_type not in ['mov', 'lea']:
                     cmd.dependency.add(regs_owner[regs[0]])
-                if cmd_type not in ['cmp','test','bt']:
+                if cmd_type not in ['cmp', 'test', 'bt']:
                     regs_owner[regs[0]] = cmd
             else:
                 # if left side is something like 'qword ptr [rsi+rax*8]'
                 for r in regs:
                     cmd.dependency.add(regs_owner[r])
-        elif cmd_type in ['call','rdtsc','jz','jb','jbe','jnb','jnz','jnbe','ret','syscall']:
+        elif cmd_type in ['call', 'rdtsc', 'jz', 'jb', 'jbe', 'jnb', 'jnz', 'jnbe', 'ret', 'syscall']:
             pass
         # commands that only have a single identifier after the cmd_type
         elif cmd_type in ['neg','pop','push','jmp']:
@@ -95,7 +95,7 @@ def lines_to_cmd_l(lines,thread):
             if is_only_reg and len(regs) == 1:
                 if cmd_type not in ['pop']:
                     cmd.dependency.add(regs_owner[regs[0]])
-                if cmd_type not in ['push','jmp']:
+                if cmd_type not in ['push', 'jmp']:
                     regs_owner[regs[0]] = cmd
             else:
                 for r in regs:
@@ -113,11 +113,14 @@ class thread:
         with open(path,'r') as f:
             lines = f.readlines()
 
-        self.cmds = lines_to_cmd_l(lines,self)
+        self.cmds = lines_to_cmd_l(lines, self)
+        self.cmd_to_run = len(self.cmds)
         self.done_cmds = []
         self.state = None
 
     def is_done(self):
+        if len(self.done_cmds) == self.cmd_to_run:
+            return True
         return False
 
     def pop_by_type(self,inst_type,inst_window_size):
@@ -127,7 +130,7 @@ class thread:
             return cmd
         return None
 
-    def get_by_type(self,inst_type,inst_window_size):
+    def get_by_type(self, inst_type, inst_window_size):
         self._update_state()
         if self.state == "context_switch_delay":
             return None
@@ -137,7 +140,7 @@ class thread:
                 return cmds[i]
         return None
 
-    def set_context_switch(self,penalty):
+    def set_context_switch(self, penalty):
         global cycle
         self.state = "context_switch_delay"
         self.delay_finish = cycle + penalty

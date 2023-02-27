@@ -20,12 +20,12 @@ with open(f'{os.getcwd()}/cfg/execution_macro.cfg') as f:
     cfg_dct = ast.literal_eval(f.read())
 execution_macro = execution_macro(cfg_dct) 
 
-scheduler = scheduler()
+scheduler = scheduler("outer", threads)
 
 cycle = 0
 while set([t.is_done() for t in threads]) != {True}:
     # run all parts for 1 cycle
-    cycle+1
+    cycle += 1
     execution_macro.run()
 
     # handle communication between parts

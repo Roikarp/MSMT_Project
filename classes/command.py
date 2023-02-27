@@ -11,13 +11,19 @@ class command:
         self.log        = []
 
     def is_done(self):
-        return self.state==done
+        return self.state == done
 
     def is_ready(self):
         for c in self.dependency:
             if not c.is_done():
                 return False
         return True
+
+    def is_type(self, unit_type):
+        if unit_type == 'alu':
+            # return self.cmd_type in ['add', 'sub', 'imul', 'xor', 'and', 'or', 'shl', 'shr', 'sar', 'mov', 'cmp', 'test']
+            return True
+        return False
 
     def __str__(self):
         s = ''
