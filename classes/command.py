@@ -7,7 +7,7 @@ class command:
         self.org_adress = ""
         self.state      = "" #Pending/issue/execution/done
         self.cmd_type   = ""
-        self.dependency = []
+        self.dependency = set()
         self.log        = []
 
     def is_done(self):
@@ -16,10 +16,20 @@ class command:
     def is_ready(self):
         for c in self.dependency:
             if not c.is_done():
-                reurn False
+                return False
         return True
 
-    def add_to_thread(self):
+    def __str__(self):
+        s = ''
+        s += f'{self.org_cmd}  :\n'
+        s += f'\tstate : {self.state}\n'
+        if self.dependency:
+            s += f'\tdependancies :\n'
+            for c in self.dependency:
+                s += f'\t{c.org_adress}\n'
+        return s
+
+    # def add_to_thread(self):
         # if inst.is_done():
         #     inst.add_to_thread_done()
         # elif inst.missed():

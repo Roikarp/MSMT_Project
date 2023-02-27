@@ -10,7 +10,7 @@ class scheduler:
         for t in threads:
             self.threads.append(t)
 
-    def pop_thread(self)
+    def pop_thread(self):
         chosen_t = self.choose_thread()
         if chosen_t:
             self.threads.remove(chosen_t)
@@ -22,7 +22,7 @@ class scheduler:
         if self.name == "outer":
             self.valid = [not t.is_stuck() for t in self.threads]\
 
-        return self.choose_thread_core(inst_type)
+        return self.choose_thread_core()
 
     def choose_thread_core(self):
         for v,t in zip(self.valid,self.threads):

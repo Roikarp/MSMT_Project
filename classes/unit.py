@@ -3,16 +3,16 @@
 import random
 
 class unit:
-    def __init__(self):
-        self.unit_type    = None
-        self.latency      = 0
+    def __init__(self,cfg_dct):
+        self.unit_type    = cfg_dct['unit_type']
+        self.latency      = cfg_dct['latency']
         self.cmd          = None
         self.cur_cycle    = 0
 
-        self.miss_rate    = 0
-        self.miss_penalty = 0
+        self.miss_rate    = cfg_dct.get('miss_rate',0)
+        self.miss_penalty = cfg_dct.get('miss_penalty',0)
+        self.miss_cycle   = cfg_dct.get('miss_cycle',0)
         self.missed       = False
-        self.miss_cycle   = 0
 
     def run(self):
         self.cur_cycle += 1

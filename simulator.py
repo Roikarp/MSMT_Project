@@ -1,16 +1,26 @@
 #!/usr/bin/env python3
+import os
+import sys
+import ast
 
-get_global_params_from_file('global_params.json')
+sys.path.insert(1, f'{os.getcwd()}/classes')
+from thread import thread
+from execution_macro import execution_macro
+from scheduler import scheduler
+
+with open(f'{os.getcwd()}/cfg/threads.cfg') as f:
+    threads_traces = ast.literal_eval(f.read())
 
 threads = []
-for i in len(THREAD_NUM):
-    cur_thread = get_cmd_fifo_from_file(threads_f['file_path'])
+for f in threads_traces:
+    cur_thread = thread(f'{os.getcwd()}/cfg/trace_files/{f}')
     threads.append(cur_thread)
 
-execution_macro = execution_macro() #use global params to configure
+with open(f'{os.getcwd()}/cfg/execution_macro.cfg') as f:
+    cfg_dct = ast.literal_eval(f.read())
+execution_macro = execution_macro(cfg_dct) 
 
-# for i in len(NUM_EXECUTION_UNIT):
-#     execution_macro.add(execution_unit())
+scheduler = scheduler()
 
 cycle = 0
 while set([t.is_done() for t in threads]) != {True}:
@@ -25,7 +35,8 @@ while set([t.is_done() for t in threads]) != {True}:
 
     if execution_macro.has_free_space():
         new_thread = scheduler.pop_thread()
-        execution_macro.add_thread(new_thread)
+        if new_thread:
+            execution_macro.add_thread(new_thread)
 
 cpi_per_thread = []
 total_inst = 0
