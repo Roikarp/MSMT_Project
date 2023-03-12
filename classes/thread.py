@@ -4,7 +4,7 @@ import sys
 from command import command
 sys.path.insert(1, f'{os.getcwd()}/../')
 from cycle import *
-from cmd_x86_dict import cmd_x86
+from cmd_x86_dep_dict import cmd_x86
 
 def lines_to_cmd_l(lines,thread):
     #initiate reg owner for dependancy calculation
@@ -65,18 +65,22 @@ def lines_to_cmd_l(lines,thread):
 
     cmds = []
     cnt = 0
+    a = set()
     for i,l in enumerate(lines):
         cmd = command()
         cmd.state      = "pending" #pending/issue/execution/done
         cmd.thread     = thread
         cmd.id         = i
         cmd.log        = []
+        cmd.use_mem    = False
 
         cmd.org_cmd    = l.strip()
         cmd.org_adress = l.split(':')[0]
 
         cmd_right_part       = l.split(':',1)[1].strip()
         # print(cmd_right_part)
+        if l[0:10] == '[TRACE:0] ':
+            continue
         if cmd_right_part[0:7] == 'data16 ':
             cmd_right_part = cmd_right_part[7:]
         if cmd_right_part[0:4] == 'rep ': #### this is a problem! it changes depends on value of ECX
@@ -114,6 +118,7 @@ def lines_to_cmd_l(lines,thread):
                     cmd.dependency.add(regs_owner[regs[0]])
             else:
                 for r in regs:
+                    cmd.use_mem = True
                     if cur_cmd_data[i]['reg_for_memory']['dep']:
                         cmd.dependency.add(regs_owner[r])
 
@@ -124,6 +129,7 @@ def lines_to_cmd_l(lines,thread):
                     regs_owner[regs[0]] = cmd
             else:
                 for r in regs:
+                    cmd.use_mem = True
                     if cur_cmd_data[i]['reg_for_memory']['change']:
                         regs_owner[r] = cmd
 
@@ -134,7 +140,6 @@ def lines_to_cmd_l(lines,thread):
 
         cmd.dependency -= {None}
         cmds.append(cmd)
-
     return cmds
 
 class thread:
@@ -142,8 +147,6 @@ class thread:
         with open(path,'r') as f:
             lines = f.readlines()
 
-        # print(*lines[280:283])
-        # sys.exit()
         self.thread_id      = i
         self.cmds           = lines_to_cmd_l(lines[:10000], self)
         self.cmd_to_run     = len(self.cmds)
@@ -164,7 +167,7 @@ class thread:
     
     def is_missed(self):
         self._update_state()
-        return self.state == 'missed_penalty'
+        return self.state in ['missed_mem_penalty','missed_pred_penalty']
 
     def pop_by_type(self,inst_type,inst_window_size):
         self._update_state()
@@ -192,7 +195,7 @@ class thread:
         if self.state == "context_switch_delay":
             if get_cycle() > self.delay_finish:
                 self.state = "running"
-        if self.state == "missed_penalty":
+        if self.state in ['missed_mem_penalty','missed_pred_penalty']:
             if get_cycle() > self.penalty_finish:
                 self.state = "pending"
 

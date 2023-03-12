@@ -9,28 +9,42 @@ class unit:
         self.cmd          = None
         self.cur_cycle    = 0
 
-        self.miss_rate    = cfg_dct.get('miss_rate',0)
-        self.miss_penalty = cfg_dct.get('miss_penalty',0)
-        self.miss_cycle   = cfg_dct.get('miss_cycle',0)
-        self.missed       = False
+        #mem miss data
+        self.miss_mem_rate    = cfg_dct.get('miss_mem_rate',0)
+        self.miss_mem_penalty = cfg_dct.get('miss_mem_penalty',0)
+        self.miss_mem_cycle   = cfg_dct.get('miss_mem_cycle',0)
+        self.missed_mem       = False
+        #br miss data
+        self.miss_pred_rate    = cfg_dct.get('miss_pred_rate',0)
+        self.miss_pred_penalty = cfg_dct.get('miss_pred_penalty',0)
+        self.miss_pred_cycle   = cfg_dct.get('miss_pred_cycle',0)
+        self.missed_pred       = False
+
 
     def run(self):
         self.cur_cycle += 1
 
     def add_inst(self,cmd):
-        self.cmd       = cmd
-        self.cur_cycle = 0
-        self.missed    = random.random() < self.miss_rate
+        self.cmd         = cmd
+        self.cur_cycle   = 0
+        self.missed_mem  = random.random() < self.miss_mem_rate
+        self.missed_pred = random.random() < self.miss_pred_rate
 
     def active(self):
         if not self.cmd:
             return False
-        if self.missed and self.cur_cycle >= self.miss_cycle:
-            self.cmd.set_missed(self.miss_penalty)
+        if self.missed_mem and self.cur_cycle >= self.miss_mem_cycle:
+            self.cmd.set_missed_mem(self.miss_mem_penalty)
             return False
+
+        if self.missed_pred and self.cur_cycle >= self.miss_pred_cycle:
+            self.cmd.set_missed_pred(self.miss_pred_penalty)
+            return False
+
         if self.cur_cycle == self.latency:
             self.cmd.set_done()
             return False
+
         return True
 
     def pop_inst_output(self):

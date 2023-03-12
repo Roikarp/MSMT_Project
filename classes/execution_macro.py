@@ -10,37 +10,17 @@ class execution_macro:
         self.inst_window_size       = macro_dict['inst_window_size']
         self.threads                = []
 
-        self.store_load_units = []
-        for i in range(macro_dict["store_load_unit_num"]):
-            self.store_load_units.append(unit(cfg_dct["store_load_unit"]))
-
-        self.alu_units = []
-        for i in range(macro_dict["alu_unit_num"]):
-            self.alu_units.append(unit(cfg_dct["alu_unit"]))
-
-        self.fp_units = []
-        for i in range(macro_dict["fp_unit_num"]):
-            self.fp_units.append(unit(cfg_dct["fp_unit"]))
-
-        self.br_units = []
-        for i in range(macro_dict["br_unit_num"]):
-            self.br_units.append(unit(cfg_dct["br_unit"]))
-
-        self.misc_units = []
-        for i in range(macro_dict["misc_unit_num"]):
-            self.misc_units.append(unit(cfg_dct["misc_unit"]))
-
+        self.execution_units = []
+        for unit_type in ['st_ld','alu','alu_st_ld','fp','fp_st_ld','br','br_st_ld','misc','misc_st_ld']:
+            for i in range(macro_dict[f'{unit_type}_unit_num']):
+                self.execution_units.append(unit(cfg_dct[f'{unit_type}_unit']))
 
         self.sched                  = Scheduler('inner',[])
-
-        self.execution_units = self.store_load_units \
-                             + self.alu_units \
-                             + self.fp_units \
-                             + self.br_units \
-                             + self.misc_units 
     def run(self):
         for unit in self.execution_units:
+            print(unit)
             if not unit.active():
+                print('not active')
                 inst = unit.pop_inst_output()
                 if inst:
                     inst.add_to_thread()
