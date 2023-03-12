@@ -15,12 +15,18 @@ class execution_macro:
             for i in range(macro_dict[f'{unit_type}_unit_num']):
                 self.execution_units.append(unit(cfg_dct[f'{unit_type}_unit']))
 
-        self.sched                  = Scheduler('inner',[])
+        if cfg_dct['scheduler']['inner_policy'] == 'LRU':
+            self.sched = LRUScheduler("inner", self.threads)
+        elif cfg_dct['scheduler']['inner_policy'] == 'Round Robin':
+            self.sched = RoundRobinScheduler("inner", self.threads)
+        else:
+            self.sched = Scheduler("inner", self.threads)
+
     def run(self):
         for unit in self.execution_units:
-            print(unit)
-            if not unit.active():
-                print('not active')
+            # print(unit)
+            if not unit.is_active():
+                # print('not active')
                 inst = unit.pop_inst_output()
                 if inst:
                     inst.add_to_thread()
@@ -66,7 +72,7 @@ class execution_macro:
     def pop_done_threads(self):
         for t in self.threads:
             if t.is_done():
-                t.state = 'done'
+                t.set_done()
                 self.sched.remove_thread(t)
         self.threads = [t for t in self.threads if not t.is_done()]
 
@@ -79,6 +85,6 @@ class execution_macro:
         s += '\nUnits:\n==========\n'
         for i , u in enumerate(self.execution_units):
             us = '    '+'\n    '.join(str(u).splitlines())
-            s += f'{i}: {us}\n'
+            s += f'{i}{(3-len(str(i)))*" "}: {us}\n'
 
         return s

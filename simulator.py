@@ -43,13 +43,13 @@ while set([t.is_done() for t in threads]) != {True}:
     #             print(c)
     #     sys.exit()
     
-    # if get_cycle()%1000 == 0:
-    #     print(get_cycle())
+    if get_cycle()%10000 == 0:
+        print(get_cycle())
 
-    # if get_cycle()%5000 == 0:
-    #     print(execution_macro)
-    #     for t in threads:
-    #         print(t)
+    if get_cycle()%30000 == 0:
+        print(execution_macro)
+        for t in threads:
+            print(t)
     #         for c in t.cmds[:10]:
     #             print(c)
 
@@ -57,11 +57,11 @@ while set([t.is_done() for t in threads]) != {True}:
     #     print(t)
     #     for c in t.cmds[:10]:
     #         print(c)
-    print(f'Cycle {get_cycle()}')
-    print(execution_macro)
+    # print(f'Cycle {get_cycle()}')
+    # print(execution_macro)
 
-    if get_cycle() > 100:
-        sys.exit()
+    # if get_cycle() > 1000:
+    #     sys.exit()
 
 
 
@@ -71,26 +71,42 @@ while set([t.is_done() for t in threads]) != {True}:
     # handle communication between parts
     if execution_macro.has_stuck_threads():
         stuck_threads = execution_macro.pop_stuck_threads()
-        print("NEW THREADS IN SCHED:")
-        for t in stuck_threads:
-            print(t)
+        # print("NEW THREADS IN SCHED:")
+        # for t in stuck_threads:
+        #     print(t)
         scheduler.add_thread(stuck_threads)
 
     if execution_macro.has_free_space():
         new_thread = scheduler.pop_thread()
         if new_thread:
-            print("NEW THREAD IN MACRO:")
-            print(new_thread)
+            # print("NEW THREAD IN MACRO:")
+            # print(new_thread)
             execution_macro.add_thread(new_thread)
 
 
 cpi_per_thread = []
-total_inst = 0
+print('thread summary:')
 for t in threads:
-    inst_cnt = t.get_inst_cnt()
-    print(inst_cnt)
-    cpi = get_cycle()/inst_cnt
+    cpi = t.get_cpi()
     cpi_per_thread.append(cpi)
+    print(t)
+    print(cpi)
+
+ipc_per_thread = [1/cpi for cpi in cpi_per_thread]
+
+usage_per_unit = []
+print('execution unit summary:')
+for unit in execution_macro.execution_units:
+    usage = unit.active_cycles/get_cycle()
+    usage_per_unit.append(usage)
+    print(unit)
+    print(usage)
+
+total_cpi = get_cycle()/sum([t.get_inst_cnt() for t in threads])
+print(f'total cpi:{total_cpi}')
+
+fairness = (sum(ipc_per_thread)**2)/(len(threads)*sum([ipc**2 for ipc in ipc_per_thread]))
+print(f'fairness:{fairness}')
 
 print(cpi_per_thread)
 

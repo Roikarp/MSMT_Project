@@ -4,16 +4,18 @@ import random
 
 class unit:
     def __init__(self,cfg_dct):
-        self.unit_type    = cfg_dct['unit_type']
-        self.latency      = cfg_dct['latency']
-        self.cmd          = None
-        self.cur_cycle    = 0
+        self.unit_type     = cfg_dct['unit_type']
+        self.latency       = cfg_dct['latency']
+        self.cmd           = None
+        self.cur_cycle     = 0
+        self.active_cycles = 0 #total active cycles
 
         #mem miss data
         self.miss_mem_rate    = cfg_dct.get('miss_mem_rate',0)
         self.miss_mem_penalty = cfg_dct.get('miss_mem_penalty',0)
         self.miss_mem_cycle   = cfg_dct.get('miss_mem_cycle',0)
         self.missed_mem       = False
+        
         #br miss data
         self.miss_pred_rate    = cfg_dct.get('miss_pred_rate',0)
         self.miss_pred_penalty = cfg_dct.get('miss_pred_penalty',0)
@@ -23,6 +25,7 @@ class unit:
 
     def run(self):
         self.cur_cycle += 1
+        self.active_cycles += 1
 
     def add_inst(self,cmd):
         self.cmd         = cmd
@@ -30,24 +33,33 @@ class unit:
         self.missed_mem  = random.random() < self.miss_mem_rate
         self.missed_pred = random.random() < self.miss_pred_rate
 
-    def active(self):
+    def is_active(self):
         if not self.cmd:
             return False
         if self.missed_mem and self.cur_cycle >= self.miss_mem_cycle:
-            self.cmd.set_missed_mem(self.miss_mem_penalty)
             return False
 
         if self.missed_pred and self.cur_cycle >= self.miss_pred_cycle:
-            self.cmd.set_missed_pred(self.miss_pred_penalty)
             return False
 
         if self.cur_cycle == self.latency:
-            self.cmd.set_done()
             return False
 
         return True
 
     def pop_inst_output(self):
+        if not self.cmd:
+            return None
+
+        if self.missed_mem and self.cur_cycle >= self.miss_mem_cycle:
+            self.cmd.set_missed_mem(self.miss_mem_penalty)
+
+        if self.missed_pred and self.cur_cycle >= self.miss_pred_cycle:
+            self.cmd.set_missed_pred(self.miss_pred_penalty)
+
+        if self.cur_cycle == self.latency:
+            self.cmd.set_done()
+
         cmd = self.cmd
         self.cmd = None
         return cmd

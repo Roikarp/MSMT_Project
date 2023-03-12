@@ -148,12 +148,13 @@ class thread:
             lines = f.readlines()
 
         self.thread_id      = i
-        self.cmds           = lines_to_cmd_l(lines[:10000], self)
+        self.cmds           = lines_to_cmd_l(lines[:20000], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
         self.delay_finish   = 0
         self.penalty_finish = 0
+        self.log            = []
 
     def is_done(self):
         self._update_state()
@@ -167,7 +168,7 @@ class thread:
     
     def is_missed(self):
         self._update_state()
-        return self.state in ['missed_mem_penalty','missed_pred_penalty']
+        return self.state in ['missed_mem_penalty','missed_pred_penalty','missed_penalty']
 
     def pop_by_type(self,inst_type,inst_window_size):
         self._update_state()
@@ -179,7 +180,7 @@ class thread:
 
     def get_by_type(self, inst_type, inst_window_size):
         self._update_state()
-        if self.state == "context_switch_delay":
+        if self.state in ['missed_mem_penalty','missed_pred_penalty','context_switch_delay']:
             return None
 
         for i in range(min(inst_window_size,len(self.cmds))):
@@ -188,25 +189,46 @@ class thread:
         return None
 
     def set_context_switch(self, penalty):
+        self.log.append({'cycle':get_cycle(),'event':'context_switch_delay'})
         self.state = "context_switch_delay"
         self.delay_finish = get_cycle() + penalty
 
     def _update_state(self):
         if self.state == "context_switch_delay":
             if get_cycle() > self.delay_finish:
+                self.log.append({'cycle':get_cycle(),'event':'running'})
                 self.state = "running"
-        if self.state in ['missed_mem_penalty','missed_pred_penalty']:
+        if self.state in ['missed_mem_penalty','missed_pred_penalty','missed_penalty']:
             if get_cycle() > self.penalty_finish:
+                self.log.append({'cycle':get_cycle(),'event':'pending'})
                 self.state = "pending"
 
     def __str__(self):
         s = ''
-        s += f'thread #{self.thread_id}:   ({self.state})\n'
-        s += f'cmds left : {len(self.cmds)}\n'
-        s += f'cmds done : {len(self.done_cmds)}\n'
+        s += f'thread #{self.thread_id}{(3-len(str(self.thread_id)))*" "}: cmd left:{len(self.cmds)} ,done:{len(self.done_cmds)} ({self.state})'
         return s
 
     def get_inst_cnt(self):
         return self.cmd_to_run
 
+    def set_missed(self,penalty_finish):
+        self.log.append({'cycle':get_cycle(),'event':'missed_penalty'})
+        self.penalty_finish = penalty_finish
+        self.state = 'missed_penalty'
+
+    def set_done(self):
+        self.log.append({'cycle':get_cycle(),'event':'done'})
+        self.state = 'done'
+
+    def get_cpi(self):
+        for l in self.log:
+            if l['event'] in ['context_switch_delay']:
+                start = l['cycle']
+                break
+        for l in reversed(self.log):
+            if l['event'] in ['done']:
+                end = l['cycle']
+                break
+
+        return (end-start)/self.cmd_to_run
 
