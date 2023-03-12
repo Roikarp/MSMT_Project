@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from unit import unit
-from scheduler import Scheduler, RoundRobinScheduler, LRUScheduler
+from scheduler import Scheduler, RoundRobinScheduler, LRUScheduler, FaintScheduler
 
 class execution_macro:
     def __init__(self,cfg_dct):
@@ -19,6 +19,8 @@ class execution_macro:
             self.sched = LRUScheduler("inner", self.threads)
         elif cfg_dct['scheduler']['inner_policy'] == 'Round Robin':
             self.sched = RoundRobinScheduler("inner", self.threads)
+        elif cfg_dct['scheduler']['inner_policy'] == 'Faint Pivot':
+            self.sched = FaintScheduler("inner", self.threads)
         else:
             self.sched = Scheduler("inner", self.threads)
 

@@ -103,7 +103,7 @@ def lines_to_cmd_l(lines,thread):
             if cnt > 30:
                 sys.exit()
             continue
-
+        # print(cmd)
         cur_cmd_data = cmd_x86[cmd_type][len(cmd_args)]
 
         if 'special_reg_dependancy' in cur_cmd_data:
@@ -148,7 +148,8 @@ class thread:
             lines = f.readlines()
 
         self.thread_id      = i
-        self.cmds           = lines_to_cmd_l(lines[:20000], self)
+        # Edit here for shorter lines
+        self.cmds           = lines_to_cmd_l(lines[:1000], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'

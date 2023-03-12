@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import copy
-
+from cycle import *
 
 class Scheduler:
     def __init__(self, name, threads):
@@ -54,13 +54,15 @@ class RoundRobinScheduler(Scheduler):
         return None
 
 
-class LRUScheduler(Scheduler):
+class FaintScheduler(Scheduler):
     def __init__(self, name, threads):
         super().__init__(name, threads)
         self.threads = [{'thread': t, 'accesses': 0} for t in self.threads]
         self.policy = "LRU"
 
     def add_thread(self, threads):
+        if type(threads) is not list:
+            threads = [threads]
         threads = [{'thread': t, 'accesses': 0} for t in threads]
         super().add_thread(threads)
 
@@ -68,6 +70,57 @@ class LRUScheduler(Scheduler):
         for t_dict in self.threads:
             if t == t_dict['thread']:
                 t_dict['accesses'] += 1
+                return
+        print("The requested thread does not exist in Faint scheduler")
+
+    def choose_thread(self, inst_type=None, inst_window_size=None):
+        threads_only_list = [element['thread'] for element in self.threads]
+        if self.name == "inner":
+            self.valid = [t.get_by_type(inst_type, inst_window_size) is not None for t in threads_only_list]
+        if self.name == "outer":
+            self.valid = [t.is_pending() for t in threads_only_list]
+        return self.choose_thread_core()
+
+    def choose_thread_core(self):
+        zipped_info = zip(self.valid, self.threads)
+        zipped_info_sorted = sorted(zipped_info, key=lambda x: x[1]['accesses'])
+        for v, t in zipped_info_sorted:
+            if v:
+                self.touch_thread(t['thread'])
+                return t['thread']
+        return None
+
+    def remove_thread(self, t):
+        threads_only_list = [element['thread'] for element in self.threads]
+        threads_only_list.remove(t)
+
+
+class LRUScheduler(Scheduler):
+    def __init__(self, name, threads):
+        super().__init__(name, threads)
+        self.threads = [{'thread': t, 'last_use_cycle': -1} for t in self.threads]
+        self.policy = "LRU"
+
+    def add_thread(self, threads):
+        if type(threads) is not list:
+            threads = [threads]
+        new_threads = []
+        for t in threads:
+            for l in reversed(t.log):
+                # Find last cycle that this thread has run
+                if l['event'] in ['running']:
+                    last_use_cyc = l['cycle']
+                    break
+                # If this thread is virgin, initialize it
+                else:
+                    last_use_cyc = -1
+            new_threads.append({'thread': t, 'last_use_cycle': last_use_cyc})
+        super().add_thread(new_threads)
+
+    def touch_thread(self, t):
+        for t_dict in self.threads:
+            if t == t_dict['thread']:
+                t_dict['accesses'] = get_cycle()
                 return
         print("The requested thread does not exist in LRUScheduler")
 
@@ -81,7 +134,7 @@ class LRUScheduler(Scheduler):
 
     def choose_thread_core(self):
         zipped_info = zip(self.valid, self.threads)
-        zipped_info_sorted = sorted(zipped_info, key=lambda x: x[1]['accesses'])
+        zipped_info_sorted = sorted(zipped_info, key=lambda x: x[1]['last_use_cycle'])
         for v, t in zipped_info_sorted:
             if v:
                 self.touch_thread(t['thread'])

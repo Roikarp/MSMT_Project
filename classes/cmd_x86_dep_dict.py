@@ -5,7 +5,9 @@ cmd_x86 = {}
 #commands that do a=a+b where + can be different operations
 for cmd in ['add','addsd','sub','psubb','or','por','and','xor','pxor','rol','ror','adc','xadd','andpd',
             'pcmpeqb','pcmpeqw','pcmpeqd','pcmpgtd','psrldq',
-            'punpcklbw','punpcklwd','punpckldq','punpckhqdq','punpckhdq','pminub','punpcklqdq','paddq','paddd']:
+            'punpcklbw','punpcklwd','punpckldq','punpckhqdq','punpckhdq','pminub','punpcklqdq','paddq','paddd','mulsd','divsd',
+            'subsd',]:
+
     cmd_data = {
         # 2 operand:
         2: {
@@ -65,7 +67,7 @@ for cmd in ['jz','js','jp','jl','jnl','jbe','jnbe','jns','jnle','jnz','jnb','jb'
     cmd_x86[cmd] = cmd_data
 
 # shift operations
-for cmd in ['shr','shl','pslldq','psllq','sar','sal','pslld']:
+for cmd in ['shr','shl','pslldq','psllq','sar','sal','pslld', 'shlx']:
     cmd_data = {
         # 1 operand:
         1: {
@@ -85,6 +87,21 @@ for cmd in ['shr','shl','pslldq','psllq','sar','sal','pslld']:
                 'reg_for_memory': {'dep': True, 'change': False},
             },
         },
+        # 3 operand:
+        3: {
+            0: {
+                'only_reg': {'dep': False, 'change': True},
+                'reg_for_memory': {'dep': False, 'change': False},
+            },
+            1: {
+                'only_reg': {'dep': True, 'change': False},
+                'reg_for_memory': {'dep': True, 'change': False},
+            },
+            2: {
+                'only_reg': {'dep': True, 'change': False},
+                'reg_for_memory': {'dep': True, 'change': False},
+            }
+        }
     }
     cmd_x86[cmd] = cmd_data
 
@@ -135,7 +152,7 @@ for cmd in ['not','neg','inc','dec']:
     cmd_x86[cmd] = cmd_data
 
 #commands that change a register based on cmp
-for cmd in ['setnz','setnp','setnb','setnle','setnbe','setz','setbe','setb']: #add dependancy to last cmp?
+for cmd in ['setnz','setnp','setnb','setnle','setnbe','setz','setbe','setb', 'setbe']: #add dependancy to last cmp?
     cmd_data = {  
         1: {
             0: {
