@@ -49,6 +49,7 @@ class execution_macro:
 
             if unit.free():
                 inst = self._get_inst_by_type(unit.unit_type)
+                # print(inst)
                 if inst:
                     unit.add_inst(inst)
 
@@ -88,3 +89,16 @@ class execution_macro:
                 t.state = 'done'
                 self.sched.remove_thread(t)
         self.threads = [t for t in self.threads if not t.is_done()]
+
+    def __str__(self):
+        s = ''
+        s += '=== Execution Macro ===\n'
+        s += 'Threads:\n'
+        for t in self.threads:
+            s += str(t).splitlines()[0]+ '\n'
+        s += '\nUnits:\n==========\n'
+        for i , u in enumerate(self.execution_units):
+            us = '    '+'\n    '.join(str(u).splitlines())
+            s += f'{i}: {us}\n'
+
+        return s

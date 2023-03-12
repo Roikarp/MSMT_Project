@@ -4,6 +4,7 @@ import sys
 from command import command
 sys.path.insert(1, f'{os.getcwd()}/../')
 from cycle import *
+from cmd_x86_dict import cmd_x86
 
 def lines_to_cmd_l(lines,thread):
     #initiate reg owner for dependancy calculation
@@ -63,77 +64,74 @@ def lines_to_cmd_l(lines,thread):
         return regs , is_only_reg
 
     cmds = []
-    for l in lines:
+    cnt = 0
+    for i,l in enumerate(lines):
         cmd = command()
         cmd.state      = "pending" #pending/issue/execution/done
         cmd.thread     = thread
+        cmd.id         = i
         cmd.log        = []
 
         cmd.org_cmd    = l.strip()
         cmd.org_adress = l.split(':')[0]
 
-        cmd_right_part       = l.split(':')[1][1:]
+        cmd_right_part       = l.split(':',1)[1].strip()
         # print(cmd_right_part)
-        cmd_type  = cmd_right_part.split(' ',1)[0]
-        if len(cmd_right_part.split(' ',1)) == 2:
-            cmd_args = cmd_right_part.split(' ',1)[1]
-        cmd.cmd_type         = cmd_type
-
-        # all commands that are in the shape of : [cmd_type] [something], [something]
-        if cmd_type in ['imul','xchg','bsf','add', 'bt', 'sub','psubb', 'xor', 'pxor', 'or', 'and', 'cmp','pcmpeqb', 'test', 'mov','movzx','movdql','movdqa','movdqu','pmovmskb','cmovz','cmovnz','movsxd', 'shl', 'shr', 'sar','pslldq', 'lea']:
-            sides        = cmd_args.split(',')
-            left , right = sides[0].strip() , sides[1].strip()
-            # if right side is something like 'rax' or 'r11d'
-            regs , is_only_reg = find_regs_in_str(right)
-            if is_only_reg and len(regs) == 1:
-                cmd.dependency.add(regs_owner[regs[0]])
-                if cmd_type in ['xchg']:
-                    regs_owner[regs[0]] = cmd
-            else:
-                # if right side is something like 'qword ptr [rsi+rax*8]'
-                for r in regs:
-                    cmd.dependency.add(regs_owner[r])
-
-            # if left side is something like 'rax' or 'r11d'
-            regs , is_only_reg = find_regs_in_str(left)
-            if is_only_reg and len(regs) == 1:
-                if cmd_type not in ['bsf','mov','movzx','pmovmskb','movdqu','movdql','cmovz','cmovnz','movsxd','lea']:
-                    cmd.dependency.add(regs_owner[regs[0]])
-                if cmd_type not in ['cmp','pcmpeqb', 'test', 'bt']:
-                    regs_owner[regs[0]] = cmd
-            else:
-                # if left side is something like 'qword ptr [rsi+rax*8]'
-                for r in regs:
-                    cmd.dependency.add(regs_owner[r])
-        elif cmd_type in ['nop','call', 'rdtsc', 'jz','jle', 'jb', 'jbe', 'jnb', 'jnz', 'jnbe', 'ret', 'syscall']:
-            pass
-        # commands that only have a single identifier after the cmd_type
-        elif cmd_type in ['neg','pop','push','jmp']:
-            regs , is_only_reg = find_regs_in_str(cmd_args)
-            if is_only_reg and len(regs) == 1:
-                if cmd_type not in ['pop']:
-                    cmd.dependency.add(regs_owner[regs[0]])
-                if cmd_type not in ['push', 'jmp']:
-                    regs_owner[regs[0]] = cmd
-            else:
-                for r in regs:
-                    cmd.dependency.add(regs_owner[r])
-        elif cmd_type == 'cpuid':
-            for r in abc_reg_names:
-                regs_owner[r] = cmd
-        elif cmd_type == 'cdqe':
-            cmd.dependency.add(regs_owner['a'])
-            regs_owner['a'] = cmd
-        elif cmd_type == 'xgetbv':
+        if cmd_right_part[0:7] == 'data16 ':
+            cmd_right_part = cmd_right_part[7:]
+        if cmd_right_part[0:4] == 'rep ': #### this is a problem! it changes depends on value of ECX
             cmd.dependency.add(regs_owner['c'])
-            regs_owner['a'] = cmd
-            regs_owner['d'] = cmd
-        elif cmd_type == 'xsetbv':
-            cmd.dependency.add(regs_owner['a'])
-            cmd.dependency.add(regs_owner['d'])
-            regs_owner['c'] = cmd
+            cmd_right_part = cmd_right_part[4:]
+        if cmd_right_part[0:4] == 'bnd ':
+            cmd_right_part = cmd_right_part[4:]
+        if cmd_right_part[0:5] == 'lock ':
+            cmd_right_part = cmd_right_part[5:]
+        cmd_type  = cmd_right_part.split(' ',1)[0]
+        cmd.cmd_type = cmd_type
+        if ' ' in cmd_right_part:
+            cmd_args = cmd_right_part.split(' ',1)[1].split(',')
         else:
+            cmd_args = []
+
+        if cmd_type not in cmd_x86:
             print(f'NO SUCH COMMAND!: {cmd.org_cmd}')
+            cnt += 1
+            if cnt > 30:
+                sys.exit()
+            continue
+
+        cur_cmd_data = cmd_x86[cmd_type][len(cmd_args)]
+
+        if 'special_reg_dependancy' in cur_cmd_data:
+            for r in cur_cmd_data['special_reg_dependancy']:
+                cmd.dependency.add(regs_owner[r])
+
+        #set dependancies
+        for i ,arg in enumerate(cmd_args):
+            regs , is_only_reg = find_regs_in_str(arg)
+            if is_only_reg and len(regs) == 1:
+                if cur_cmd_data[i]['only_reg']['dep']:
+                    cmd.dependency.add(regs_owner[regs[0]])
+            else:
+                for r in regs:
+                    if cur_cmd_data[i]['reg_for_memory']['dep']:
+                        cmd.dependency.add(regs_owner[r])
+
+        #set ownership  
+        for i ,arg in enumerate(cmd_args):
+            if is_only_reg and len(regs) == 1:
+                if cur_cmd_data[i]['only_reg']['change']:
+                    regs_owner[regs[0]] = cmd
+            else:
+                for r in regs:
+                    if cur_cmd_data[i]['reg_for_memory']['change']:
+                        regs_owner[r] = cmd
+
+        if 'special_reg_change' in cur_cmd_data:
+            for r in cur_cmd_data['special_reg_change']:
+                regs_owner[r] = cmd
+
+
         cmd.dependency -= {None}
         cmds.append(cmd)
 
@@ -144,13 +142,15 @@ class thread:
         with open(path,'r') as f:
             lines = f.readlines()
 
-        self.cmds           = lines_to_cmd_l(lines, self)
+        # print(*lines[280:283])
+        # sys.exit()
+        self.thread_id      = i
+        self.cmds           = lines_to_cmd_l(lines[:10000], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
         self.delay_finish   = 0
         self.penalty_finish = 0
-        self.thread_id      = i
 
     def is_done(self):
         self._update_state()

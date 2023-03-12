@@ -49,3 +49,9 @@ class unit:
                 return cmd
         return None
 
+    def __str__(self):
+        s = ''
+        s += f'=== {self.unit_type} Unit ==={"="*(16-len(self.unit_type))} '
+        s += f'Current Command: {self.cmd}'
+        return s
+

@@ -14,6 +14,7 @@ class command:
         self.dependency     = set()
         self.log            = []
         self.penalty_finish = 0
+        self.id             = 0 
 
     def is_done(self):
         return self.state == 'done'
@@ -27,25 +28,35 @@ class command:
         return True
 
     def is_type(self, unit_type):
-        if unit_type == 'alu':
-            return self.cmd_type in ['imul','xchg','cdqe','neg','add', 'sub','psubb', 'imul', 'xor', 'and', 'or', 'shl', 'shr', 'sar','pslldq','mov','movzx','movdql','movdqa','movdqu','pmovmskb','cmovz','cmovnz','movsxd', 'cmp','pcmpeqb', 'test']
-        if unit_type == 'br':
-            return self.cmd_type in ['nop','jmp','jz', 'jb','jle', 'jbe', 'jnb', 'jnz', 'jnbe', 'syscall']
-        if unit_type == 'misc':
-            return self.cmd_type in ['cpuid','call', 'rdtsc', 'ret','pop','push']
-        if unit_type == 'store_load':
-            return self.cmd_type in ['lea']
+        alu_l =  ['imul','xchg','cdqe','neg','add', 'sub','psubb', 'imul', 'xor', 'and', 'or', 'shl', 'shr', 'sar','pslldq','movzx','movdql','movdqa','movdqu','pmovmskb','cmovz','cmovnz','movsxd', 'cmp','pcmpeqb', 'test']
+        br_l =  ['nop','jmp','jz', 'jb','jle', 'jbe', 'jnb', 'jnz', 'jnbe', 'syscall']
+        misc_l =  ['cpuid','call', 'rdtsc', 'ret','pop','push','xgetbv']
+        store_load_l =  ['lea','mov']
+        known_type = alu_l + br_l + misc_l + store_load_l
 
-        return False
+        if unit_type == 'alu':
+            if self.cmd_type in alu_l:
+                return True
+        if unit_type == 'br':
+            if self.cmd_type in br_l:
+                return True
+        if unit_type == 'misc':
+            if self.cmd_type in misc_l:
+                return True
+        if unit_type == 'store_load':
+            if self.cmd_type in store_load_l:
+                return True
+
+        return self.cmd_type not in known_type
 
     def __str__(self):
         s = ''
-        s += f'{self.org_cmd}  :\n'
-        s += f'\tstate : {self.state}\n'
+        s += f'{self.thread.thread_id}_{self.id} -> {self.org_cmd}  : '
+        s += f' state : {self.state}'
         if self.dependency:
-            s += f'\tdependancies :\n'
+            s += f'\n\tDependancies :\n'
             for c in self.dependency:
-                s += f'\t{c.org_adress}\n'
+                s += f'\t{c.thread.thread_id}_{c.id}  {c.cmd_type}  ({c.state})\n'
         return s
 
     def add_to_thread(self):
@@ -61,6 +72,7 @@ class command:
         self.thread.state = 'missed_penalty'
 
     def set_done(self):
+        # print(f'{self.org_adress}   ==  Done')
         self.state = 'done'
 
 

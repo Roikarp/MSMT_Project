@@ -15,7 +15,7 @@ with open(f'{os.getcwd()}/cfg/threads.cfg') as f:
 
 threads = []
 for i,f in enumerate(threads_traces):
-    cur_thread = thread(f'{os.getcwd()}/cfg/trace_files/{f}',i)
+    cur_thread = thread(f'{os.getcwd()}/trace_files/{f}',i)
     threads.append(cur_thread)
 
 with open(f'{os.getcwd()}/cfg/execution_macro.cfg') as f:
@@ -32,26 +32,39 @@ else:
 while set([t.is_done() for t in threads]) != {True}:
     # run all parts for 1 cycle
     incr_cycle()
-    if get_cycle()%20 == 0:
-        print(get_cycle())
-    # for t in threads:
-    #     print (t)
+    # if get_cycle() > 130000:
+    #     print(f'Cycle {get_cycle()}:')
+    #     print(execution_macro)
+    # if get_cycle() > 130000 :
+    #     for t in threads:
+    #         print(t)
+    #         for c in t.cmds[:10]:
+    #             print(c)
+    #     sys.exit()
+    # if get_cycle()%10000 == 0:
+    #     print(get_cycle())
+
+    if get_cycle()%30000 == 0:
+        print(execution_macro)
+        for t in threads:
+            print (t)
+
     execution_macro.run()
     execution_macro.pop_done_threads()
 
     # handle communication between parts
     if execution_macro.has_stuck_threads():
         stuck_threads = execution_macro.pop_stuck_threads()
-        print("NEW THREADS IN SCHED:")
-        for t in stuck_threads:
-            print(t)
+        # print("NEW THREADS IN SCHED:")
+        # for t in stuck_threads:
+        #     print(t)
         scheduler.add_thread(stuck_threads)
 
     if execution_macro.has_free_space():
         new_thread = scheduler.pop_thread()
         if new_thread:
-            print("NEW THREAD IN MACRO:")
-            print(new_thread)
+            # print("NEW THREAD IN MACRO:")
+            # print(new_thread)
             execution_macro.add_thread(new_thread)
 
 
