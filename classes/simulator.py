@@ -35,7 +35,7 @@ class Simulator:
         self.fairness = None
         self.sim_done = False
         self.cycle = 0
-        self.logger = 
+        self.logger = logger(logger_path)
 
     def simulate_on(self):
         self.cycle = 0
@@ -110,13 +110,22 @@ class Simulator:
         self.fairness = (sum(ipc_per_thread) ** 2) / (len(self.threads) * sum([ipc ** 2 for ipc in ipc_per_thread]))
 
         if to_stdout:
-            print('thread summary:')
+            print('Thread summary:')
             for i, t in enumerate(self.threads):
                 print(t)
-                print(self.cpi_per_thread[i])
             print('execution unit summary:')
             for i, unit in enumerate(self.execution_macro.execution_units):
                 print(unit)
             print(f'total cpi:{self.total_cpi}')
             print(f'fairness:{self.fairness}')
-            print(self.cpi_per_thread)            
+        print(self.cpi_per_thread)            
+
+        self.logger.info('Thread summary:')
+        for i, t in enumerate(self.threads):
+            self.logger.info(t)
+        self.logger.info('execution unit summary:')
+        for i, unit in enumerate(self.execution_macro.execution_units):
+            self.logger.info(unit)
+        self.logger.info(f'total cpi:{self.total_cpi}')
+        self.logger.info(f'fairness:{self.fairness}')
+        self.logger.info(self.cpi_per_thread)            

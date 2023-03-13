@@ -94,12 +94,14 @@ class command:
         self.penalty_finish = self.get_cycle() + miss_penalty
         self.thread.set_missed(self.penalty_finish)
 
-    def set_done(self):
+    def set_done(self,unit_type):
         self.log.append({'cycle':self.get_cycle(),'event':'done'})
+        self.unit_type = unit_type
         self.state = 'done'
 
     def get_cycle(self):
         return self.thread.sim.cycle
+
 
 
 

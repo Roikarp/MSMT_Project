@@ -52,9 +52,3 @@ for p in processes:
 # Wait for all simulations to complete
 for p in processes:
     p.join()
-
-
-
-    # simulator = Simulator(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log')
-    # simulator.simulate_on()
-    # simulator.calc_statitstics(to_stdout=True)

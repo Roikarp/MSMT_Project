@@ -58,7 +58,7 @@ class unit:
             self.cmd.set_missed_pred(self.miss_pred_penalty)
 
         if self.cur_cycle == self.latency:
-            self.cmd.set_done()
+            self.cmd.set_done(self.unit_type)
 
         cmd = self.cmd
         self.cmd = None
@@ -77,7 +77,7 @@ class unit:
 
     def __str__(self):
         s = ''
-        s += f'=== {self.unit_type} Unit ==={"="*(10-len(self.unit_type))} '
+        s += f'== {self.unit_type} Unit =={"="*(10-len(self.unit_type))} '
         if self.sim_done():
             s += f'\nUsage: {self.active_cycles / self.get_cycle()}'
         else:

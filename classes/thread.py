@@ -66,6 +66,13 @@ def lines_to_cmd_l(lines,thread):
     cnt = 0
     a = set()
     for i,l in enumerate(lines):
+        if l[0:10] == '[TRACE:0] ':
+            continue
+        if l[0:18] == 'Instruction count ':
+            continue
+        if i%50000 == 0:
+            print(i)
+
         cmd = command()
         cmd.state      = "pending" #pending/issue/execution/done
         cmd.thread     = thread
@@ -75,11 +82,8 @@ def lines_to_cmd_l(lines,thread):
 
         cmd.org_cmd    = l.strip()
         cmd.org_adress = l.split(':')[0]
-
         cmd_right_part       = l.split(':',1)[1].strip()
-        # print(cmd_right_part)
-        if l[0:10] == '[TRACE:0] ':
-            continue
+
         if cmd_right_part[0:7] == 'data16 ':
             cmd_right_part = cmd_right_part[7:]
         if cmd_right_part[0:4] == 'rep ': #### this is a problem! it changes depends on value of ECX
@@ -103,7 +107,10 @@ def lines_to_cmd_l(lines,thread):
                 sys.exit()
             continue
         # print(cmd)
-        cur_cmd_data = cmd_x86[cmd_type][len(cmd_args)]
+        try:
+            cur_cmd_data = cmd_x86[cmd_type][len(cmd_args)]
+        except:
+            print (l)
 
         if 'special_reg_dependancy' in cur_cmd_data:
             for r in cur_cmd_data['special_reg_dependancy']:
@@ -145,10 +152,12 @@ class thread:
     def __init__(self,path,i):
         with open(path,'r') as f:
             lines = f.readlines()
+        print(path)
 
         self.thread_id      = i
+        self.bench          = path.split('.')[-2].split('/')[-1]
         # Edit here for shorter lines
-        self.cmds           = lines_to_cmd_l(lines[:1000], self)
+        self.cmds           = lines_to_cmd_l(lines[:200000], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
@@ -204,11 +213,6 @@ class thread:
                 self.log.append({'cycle':self.get_cycle(),'event':'pending'})
                 self.state = "pending"
 
-    def __str__(self):
-        s = ''
-        s += f'thread #{self.thread_id}{(3-len(str(self.thread_id)))*" "}: cmd left:{len(self.cmds)} ,done:{len(self.done_cmds)} ({self.state})'
-        return s
-
     def get_inst_cnt(self):
         return self.cmd_to_run
 
@@ -235,4 +239,32 @@ class thread:
 
     def get_cycle(self):
         return self.sim.cycle
+
+    def sim_done(self):
+        return self.sim.sim_done
+
+    def get_hist(self):
+        hist = {}
+        for c in self.done_cmds:
+            if c.unit_type in hist:
+                hist[c.unit_type] += 1
+            else:
+                hist[c.unit_type] = 1
+        hist = list(hist.items())
+        hist.sort(reverse=True,key=lambda x: x[1])
+        return hist
+
+    def __str__(self):
+        tot_cmds = len(self.done_cmds)
+        s = ''
+        s += f'thread #{self.thread_id}{(3-len(str(self.thread_id)))*" "}- '
+        s += f'{self.bench}{(10-len(str(self.bench)))*" "}'
+        if self.sim_done():
+            s += f', {tot_cmds} commands, cpi {round(self.get_cpi(),3)}:\n'
+            hist = self.get_hist()
+            for i , (ut , cnt) in enumerate(hist):
+                s += f'{i}: {ut} - {cnt} cmds ({(100*cnt)/tot_cmds}%)\n'
+        else:
+            s += f': cmd left: {len(self.cmds)} ,done: {tot_cmds} ({self.state})'
+        return s
 

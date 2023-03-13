@@ -87,7 +87,7 @@ class execution_macro:
             s += str(t).splitlines()[0]+ '\n'
         s += '\nUnits:\n==========\n'
         for i , u in enumerate(self.execution_units):
-            us = '    '+'\n    '.join(str(u).splitlines())
+            us = ' '+'\n '.join(str(u).splitlines())
             s += f'{i}{(3-len(str(i)))*" "}: {us}\n'
 
         return s

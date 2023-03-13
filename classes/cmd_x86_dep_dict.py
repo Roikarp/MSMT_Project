@@ -54,7 +54,7 @@ for cmd in ['cmp','test','bt','ucomisd']:
     cmd_x86[cmd] = cmd_data
 
 #commands that read single argument and flags
-for cmd in ['jz','js','jp','jl','jnl','jbe','jnbe','jns','jnle','jnz','jnb','jb','jle']: #add dependancy to last cmp?
+for cmd in ['jz','js','jp','jl','jo','jnl','jbe','jnbe','jns','jnle','jnz','jnb','jb','jle']: #add dependancy to last cmp?
     cmd_data = { 
         # jz 1 operand:
         1: {
@@ -67,7 +67,7 @@ for cmd in ['jz','js','jp','jl','jnl','jbe','jnbe','jns','jnle','jnz','jnb','jb'
     cmd_x86[cmd] = cmd_data
 
 # shift operations
-for cmd in ['shr','shl','pslldq','psllq','sar','sal','pslld', 'shlx']:
+for cmd in ['shr','shl','pslldq','psllq','sar','sal','pslld']:
     cmd_data = {
         # 1 operand:
         1: {
@@ -87,27 +87,43 @@ for cmd in ['shr','shl','pslldq','psllq','sar','sal','pslld', 'shlx']:
                 'reg_for_memory': {'dep': True, 'change': False},
             },
         },
-        # 3 operand:
-        3: {
+    }
+    cmd_x86[cmd] = cmd_data
+
+# shift operations special
+for cmd in ['shlx','sarx','shrx']:
+    cmd_data = {
+        # 2 operand:
+        2: {
             0: {
-                'only_reg': {'dep': False, 'change': True},
-                'reg_for_memory': {'dep': False, 'change': False},
+                'only_reg':       {'dep': True, 'change': True},
+                'reg_for_memory': {'dep': True, 'change': False},
             },
             1: {
-                'only_reg': {'dep': True, 'change': False},
+                'only_reg':       {'dep': True, 'change': False},
                 'reg_for_memory': {'dep': True, 'change': False},
             },
+        },
+        3: {
+            0: {
+                'only_reg':       {'dep': False, 'change': True},
+                'reg_for_memory': {'dep': True, 'change': False}
+            },
+            1: {
+                'only_reg':       {'dep': True, 'change': False},
+                'reg_for_memory': {'dep': True, 'change': False}
+            },
             2: {
-                'only_reg': {'dep': True, 'change': False},
-                'reg_for_memory': {'dep': True, 'change': False},
+                'only_reg':       {'dep': True, 'change': False},
+                'reg_for_memory': {'dep': True, 'change': False}
             }
-        }
+        },
     }
     cmd_x86[cmd] = cmd_data
 
 
 # move operations
-for cmd in ['mov','movd','movq','cmovs','cmovl','cmovns','cmovnle','cmovnl','cmovle','movzx','movsx','movsxd','movlpd','movhpd','movhps','movdqu','movdqa','movaps','pmovmskb','pmovmskpd','movmskpd','movups','lea','vmovq','vmovd','vmovdqu','vpmovmskb','vmovdqa','movsd','movapd','vmovsd','vmovss']: 
+for cmd in ['mov','movd','movq','movbe','movzx','movsx','movsxd','movlpd','movhpd','movhps','movdqu','movdqa','movaps','pmovmskb','pmovmskpd','movmskpd','movups','lea','vmovq','vmovd','vmovdqu','vpmovmskb','vmovdqa','movsd','movapd','vmovsd','vmovss','vmovups','vmovaps']: 
     cmd_data = {
         2: {
             0: {
@@ -123,7 +139,7 @@ for cmd in ['mov','movd','movq','cmovs','cmovl','cmovns','cmovnle','cmovnl','cmo
     cmd_x86[cmd] = cmd_data
 
 #conditional move operations
-for cmd in ['cmovz','cmovnz','cmovnbe','cmovb','cmovbe','cmovnb']: #add dependancy to last cmp?
+for cmd in ['cmovz','cmovs','cmovnz','cmovnbe','cmovb','cmovbe','cmovnb','cmovl','cmovns','cmovnle','cmovnl','cmovle']: #add dependancy to last cmp?
     cmd_data = {
         2: {
             0: {
@@ -139,7 +155,7 @@ for cmd in ['cmovz','cmovnz','cmovnbe','cmovb','cmovbe','cmovnb']: #add dependan
     cmd_x86[cmd] = cmd_data
 
 #commands that change a register based on its value
-for cmd in ['not','neg','inc','dec']:
+for cmd in ['not','neg','inc','dec','bswap']:
     cmd_data = {
         # neg 1 operand:
         1: {
@@ -228,7 +244,7 @@ cmd_data = {
 cmd_x86['rdtsc'] = cmd_data
 
 #commands that change destination based on source
-for cmd in ['bsf','bsr','vpbroadcastb','tzcnt','popcnt']:
+for cmd in ['bsf','bsr','vcvttsd2si','vpbroadcastb','tzcnt','popcnt','blsr','blsi']:
     cmd_data = {
         # 2 operand:
         2: {
@@ -458,7 +474,7 @@ cmd_data = {
 cmd_x86['cmpxchg'] = cmd_data
 
 
-for cmd in ['vpxor','vpcmpeqb','vpcmpgtb','shld','shrd','vpor','vpand','vpandn','vdivss','vpsubb','vpcmpistri','vpslldq','vxorps','vcvtsi2ss','vcvtss2sd']:
+for cmd in ['vpxor','vdivsd','vsqrtsd','vpcmpeqb','vpinsrq','vfmadd231sd','vpcmpgtb','vpminub','shld','shrd','vpor','vpand','vpandn','vdivss','vpsubb','vpcmpistri','vpslldq','vxorps','vxorpd','vmulsd','vcvtsi2ss','vcvtsi2sd','vcvtss2sd']:
     cmd_data = {
         3: {
             0: {
@@ -549,32 +565,32 @@ cmd_data = {
 }
 cmd_x86['movsq'] = cmd_data
 
-# vpalignr
-cmd_data = {
-    # vpalignr 4 operand:
-    4: {
-        'special_reg_dependancy': ['si','di'],
-        'special_reg_change': ['si','di'],
-        0: {
-                'only_reg':       {'dep': False, 'change': True},
-                'reg_for_memory': {'dep': True, 'change': False}
-            },
-        1: {
-                'only_reg':       {'dep': True, 'change': False},
-                'reg_for_memory': {'dep': True, 'change': False}
-            },
-        2: {
-                'only_reg':       {'dep': True, 'change': False},
-                'reg_for_memory': {'dep': True, 'change': False}
-            },
-        3: {
-                'only_reg':       {'dep': True, 'change': False},
-                'reg_for_memory': {'dep': True, 'change': False}
-            },
-    },
+for cmd in ['vpalignr','vpinsrq']:
+    cmd_data = {
+        #  4 operand:
+        4: {
+            'special_reg_dependancy': ['si','di'],
+            'special_reg_change': ['si','di'],
+            0: {
+                    'only_reg':       {'dep': False, 'change': True},
+                    'reg_for_memory': {'dep': True, 'change': False}
+                },
+            1: {
+                    'only_reg':       {'dep': True, 'change': False},
+                    'reg_for_memory': {'dep': True, 'change': False}
+                },
+            2: {
+                    'only_reg':       {'dep': True, 'change': False},
+                    'reg_for_memory': {'dep': True, 'change': False}
+                },
+            3: {
+                    'only_reg':       {'dep': True, 'change': False},
+                    'reg_for_memory': {'dep': True, 'change': False}
+                },
+        },
 
-}
-cmd_x86['vpalignr'] = cmd_data
+    }
+    cmd_x86[cmd] = cmd_data
 
 # vzeroupper
 cmd_data = {
