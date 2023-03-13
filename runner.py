@@ -52,3 +52,5 @@ for p in processes:
 # Wait for all simulations to complete
 for p in processes:
     p.join()
+
+    
