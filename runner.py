@@ -7,7 +7,7 @@ import multiprocessing
 sys.path.insert(1, f'{os.getcwd()}/classes')
 from simulator import Simulator
 
-def simulator_generator(self, thread_traces, cfg_dct, log_file):
+def simulator_generator(thread_traces, cfg_dct, log_file):
     simulator = Simulator(thread_traces, cfg_dct, log_file)
     simulator.simulate_on()
     simulator.calc_statitstics(to_stdout=True)
@@ -31,6 +31,7 @@ if os.path.isdir(args.threads_path):
             threads_traces = ast.literal_eval(f.read())
             threads_traces_list.append(threads_traces)
 else:
+    num_of_simulators = 1
     with open(args.threads_path) as f:
         threads_traces = ast.literal_eval(f.read())
         threads_traces_list = [threads_traces]
