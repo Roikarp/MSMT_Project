@@ -3,7 +3,6 @@ import os
 import sys
 from command import command
 sys.path.insert(1, f'{os.getcwd()}/../')
-from cycle import *
 from cmd_x86_dep_dict import cmd_x86
 
 def lines_to_cmd_l(lines,thread):
@@ -156,6 +155,7 @@ class thread:
         self.delay_finish   = 0
         self.penalty_finish = 0
         self.log            = []
+        self.sim            = None
 
     def is_done(self):
         self._update_state()
@@ -190,18 +190,18 @@ class thread:
         return None
 
     def set_context_switch(self, penalty):
-        self.log.append({'cycle':get_cycle(),'event':'context_switch_delay'})
+        self.log.append({'cycle':self.get_cycle(),'event':'context_switch_delay'})
         self.state = "context_switch_delay"
-        self.delay_finish = get_cycle() + penalty
+        self.delay_finish = self.get_cycle() + penalty
 
     def _update_state(self):
         if self.state == "context_switch_delay":
-            if get_cycle() > self.delay_finish:
-                self.log.append({'cycle':get_cycle(),'event':'running'})
+            if self.get_cycle() > self.delay_finish:
+                self.log.append({'cycle':self.get_cycle(),'event':'running'})
                 self.state = "running"
         if self.state in ['missed_mem_penalty','missed_pred_penalty','missed_penalty']:
-            if get_cycle() > self.penalty_finish:
-                self.log.append({'cycle':get_cycle(),'event':'pending'})
+            if self.get_cycle() > self.penalty_finish:
+                self.log.append({'cycle':self.get_cycle(),'event':'pending'})
                 self.state = "pending"
 
     def __str__(self):
@@ -213,12 +213,12 @@ class thread:
         return self.cmd_to_run
 
     def set_missed(self,penalty_finish):
-        self.log.append({'cycle':get_cycle(),'event':'missed_penalty'})
+        self.log.append({'cycle':self.get_cycle(),'event':'missed_penalty'})
         self.penalty_finish = penalty_finish
         self.state = 'missed_penalty'
 
     def set_done(self):
-        self.log.append({'cycle':get_cycle(),'event':'done'})
+        self.log.append({'cycle':self.get_cycle(),'event':'done'})
         self.state = 'done'
 
     def get_cpi(self):
@@ -232,4 +232,7 @@ class thread:
                 break
 
         return (end-start)/self.cmd_to_run
+
+    def get_cycle(self):
+        return self.sim.cycle
 

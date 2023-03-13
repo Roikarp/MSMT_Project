@@ -75,28 +75,31 @@ class command:
         return s
 
     def add_to_thread(self):
-        self.log.append({'cycle':get_cycle(),'event':'back_to_thread'})
+        self.log.append({'cycle':self.get_cycle(),'event':'back_to_thread'})
         if self.is_done():
             self.thread.done_cmds.append(self)
         elif self.is_missed():
             self.thread.cmds = [self] + self.thread.cmds
     
     def set_missed_mem(self,miss_penalty):
-        self.log.append({'cycle':get_cycle(),'event':'missed_mem'})
+        self.log.append({'cycle':self.get_cycle(),'event':'missed_mem'})
         self.state = 'missed_mem'
-        self.penalty_finish = get_cycle() + miss_penalty
+        self.penalty_finish = self.get_cycle() + miss_penalty
         self.thread.penalty_finish = self.penalty_finish
         self.thread.state = 'missed_mem_penalty'
 
     def set_missed_pred(self,miss_penalty):
-        self.log.append({'cycle':get_cycle(),'event':'missed_pred'})
+        self.log.append({'cycle':self.get_cycle(),'event':'missed_pred'})
         self.state = 'missed_pred'
-        self.penalty_finish = get_cycle() + miss_penalty
+        self.penalty_finish = self.get_cycle() + miss_penalty
         self.thread.set_missed(self.penalty_finish)
 
     def set_done(self):
-        self.log.append({'cycle':get_cycle(),'event':'done'})
+        self.log.append({'cycle':self.get_cycle(),'event':'done'})
         self.state = 'done'
+
+    def get_cycle(self):
+        return self.thread.sim.cycle
 
 
 

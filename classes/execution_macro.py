@@ -3,17 +3,19 @@ from unit import unit
 from scheduler import Scheduler, RoundRobinScheduler, LRUScheduler, FaintScheduler
 
 class execution_macro:
-    def __init__(self,cfg_dct):
+    def __init__(self,cfg_dct,sim):
         macro_dict = cfg_dct['execution_macro']
         self.max_threads            = macro_dict['max_threads']
         self.context_switch_penalty = macro_dict['context_switch_penalty']
         self.inst_window_size       = macro_dict['inst_window_size']
         self.threads                = []
+        self.sim                    = sim
 
         self.execution_units = []
         for unit_type in ['st_ld','alu','alu_st_ld','fp','fp_st_ld','br','br_st_ld','misc','misc_st_ld']:
             for i in range(macro_dict[f'{unit_type}_unit_num']):
                 self.execution_units.append(unit(cfg_dct[f'{unit_type}_unit']))
+                self.execution_units[-1].sim = sim
 
         if cfg_dct['scheduler']['inner_policy'] == 'LRU':
             self.sched = LRUScheduler("inner", self.threads)
@@ -23,12 +25,11 @@ class execution_macro:
             self.sched = FaintScheduler("inner", self.threads)
         else:
             self.sched = Scheduler("inner", self.threads)
+        self.sched.sim = sim
 
     def run(self):
         for unit in self.execution_units:
-            # print(unit)
             if not unit.is_active():
-                # print('not active')
                 inst = unit.pop_inst_output()
                 if inst:
                     inst.add_to_thread()

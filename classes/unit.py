@@ -77,7 +77,16 @@ class unit:
 
     def __str__(self):
         s = ''
-        s += f'=== {self.unit_type} Unit ==={"="*(16-len(self.unit_type))} '
-        s += f'Current Command: {self.cmd}'
+        s += f'=== {self.unit_type} Unit ==={"="*(10-len(self.unit_type))} '
+        if self.sim_done():
+            s += f'\nUsage: {self.active_cycles / self.get_cycle()}'
+        else:
+            s += f'Current Command: {self.cmd}'
         return s
+
+    def sim_done(self):
+        return self.sim.sim_done
+
+    def get_cycle(self):
+        return self.sim.cycle
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import copy
-from cycle import *
 
 class Scheduler:
     def __init__(self, name, threads):
@@ -8,6 +7,7 @@ class Scheduler:
         self.policy  = ""
         self.name    = name
         self.valid   = []
+        self.sim     = None
 
     def add_thread(self, threads):
         if type(threads) == list:
@@ -120,7 +120,7 @@ class LRUScheduler(Scheduler):
     def touch_thread(self, t):
         for t_dict in self.threads:
             if t == t_dict['thread']:
-                t_dict['accesses'] = get_cycle()
+                t_dict['accesses'] = self.get_cycle()
                 return
         print("The requested thread does not exist in LRUScheduler")
 
@@ -144,3 +144,7 @@ class LRUScheduler(Scheduler):
     def remove_thread(self, t):
         threads_only_list = [element['thread'] for element in self.threads]
         threads_only_list.remove(t)
+
+    def get_cycle(self):
+        return self.sim.cycle
+
