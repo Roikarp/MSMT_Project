@@ -4,7 +4,7 @@ cmd_x86 = {}
 
 #commands that do a=a+b where + can be different operations
 for cmd in ['add','addsd','sub','psubb','or','por','and','xor','pxor','rol','ror','adc','xadd','andpd',
-            'pcmpeqb','pcmpeqw','pcmpeqd','pcmpgtd','psrldq',
+            'pcmpeqb','pcmpeqw','pcmpeqd','pcmpgtd','psrldq','addss',
             'punpcklbw','punpcklwd','punpckldq','punpckhqdq','punpckhdq','pminub','punpcklqdq','paddq','paddd','mulsd','divsd',
             'subsd',]:
 
@@ -37,7 +37,7 @@ for cmd in ['call','jmp','push','stmxcsr','fnstcw','fldcw','ldmxcsr']:
     cmd_x86[cmd] = cmd_data
 
 #comparsion commands - commands that read two arguments
-for cmd in ['cmp','test','bt','ucomisd']:
+for cmd in ['cmp','test','bt','ucomisd','vucomisd']:
     cmd_data = {
         # 2 operand:
         2: {
@@ -123,7 +123,7 @@ for cmd in ['shlx','sarx','shrx']:
 
 
 # move operations
-for cmd in ['mov','movd','movq','movbe','movzx','movsx','movsxd','movlpd','movhpd','movhps','movdqu','movdqa','movaps','pmovmskb','pmovmskpd','movmskpd','movups','lea','vmovq','vmovd','vmovdqu','vpmovmskb','vmovdqa','movsd','movapd','vmovsd','vmovss','vmovups','vmovaps']: 
+for cmd in ['mov','movd','movq','movbe','movzx','movsx','movsxd','movsb','movss','movlpd','movhpd','movhps','movdqu','movdqa','movaps','pmovmskb','pmovmskpd','movmskpd','movups','lea','vmovq','vmovd','vmovdqu','vpmovmskb','vmovdqa','movsd','movapd','vmovsd','vmovss','vmovups','vmovaps']: 
     cmd_data = {
         2: {
             0: {
@@ -168,7 +168,7 @@ for cmd in ['not','neg','inc','dec','bswap']:
     cmd_x86[cmd] = cmd_data
 
 #commands that change a register based on cmp
-for cmd in ['setnz','setnp','setnb','setnle','setnbe','setz','setbe','setb', 'setbe']: #add dependancy to last cmp?
+for cmd in ['setnz','setnl','setnp','setle','setnb','setnle','setnbe','setz','setbe','setb', 'setbe']: #add dependancy to last cmp?
     cmd_data = {  
         1: {
             0: {
@@ -244,7 +244,7 @@ cmd_data = {
 cmd_x86['rdtsc'] = cmd_data
 
 #commands that change destination based on source
-for cmd in ['bsf','bsr','vcvttsd2si','vpbroadcastb','tzcnt','popcnt','blsr','blsi']:
+for cmd in ['bsf','bsr','vcvttsd2si','vcvttss2si','vpbroadcastb','tzcnt','popcnt','blsr','blsi']:
     cmd_data = {
         # 2 operand:
         2: {
@@ -389,7 +389,38 @@ cmd_data = {
 }
 cmd_x86['pshufd'] = cmd_data
 
-for cmd in ['stosq','stosb']:
+# pshufb 
+cmd_data = {
+    # pshufb  2 operand:
+    2: {
+        0: {
+            'only_reg':       {'dep': False, 'change': True},
+            'reg_for_memory': {'dep': True, 'change': False}
+        },
+        1: {
+            'only_reg':       {'dep': True, 'change': False},
+            'reg_for_memory': {'dep': True, 'change': False}
+        },
+    },
+    # pshufb  3 operand:
+    3: {
+        0: {
+            'only_reg':       {'dep': False, 'change': True},
+            'reg_for_memory': {'dep': True, 'change': False}
+        },
+        1: {
+            'only_reg':       {'dep': True, 'change': False},
+            'reg_for_memory': {'dep': True, 'change': False}
+        },
+        2: {
+            'only_reg':       {'dep': True, 'change': False},
+            'reg_for_memory': {'dep': True, 'change': False}
+        }
+    }
+}
+cmd_x86['pshufb'] = cmd_data
+
+for cmd in ['stosq','stosb','stosd']:
     cmd_data = {
         # 0 operand:
         0: {
@@ -474,7 +505,7 @@ cmd_data = {
 cmd_x86['cmpxchg'] = cmd_data
 
 
-for cmd in ['vpxor','vdivsd','vsqrtsd','vpcmpeqb','vpinsrq','vfmadd231sd','vpcmpgtb','vpminub','shld','shrd','vpor','vpand','vpandn','vdivss','vpsubb','vpcmpistri','vpslldq','vxorps','vxorpd','vmulsd','vcvtsi2ss','vcvtsi2sd','vcvtss2sd']:
+for cmd in ['vpxor','vdivsd','vsqrtsd','vpcmpeqb','vpunpckldq','vpinsrq','palignr','andn','vaddsd','vaddss','vmulss','vmaxsd','vminsd','vsubsd','vfmadd231sd','vfmadd213sd','vfmadd132sd','vpcmpgtb','vpminub','shld','shrd','vpor','vpand','vpandn','vdivss','vpsubb','vpcmpistri','vpslldq','vxorps','vxorpd','vmulsd','vcvtsi2ss','vcvtsi2sd','vcvtss2sd','pcmpistri','vcvtsd2ss']:
     cmd_data = {
         3: {
             0: {
@@ -565,7 +596,7 @@ cmd_data = {
 }
 cmd_x86['movsq'] = cmd_data
 
-for cmd in ['vpalignr','vpinsrq']:
+for cmd in ['vpalignr','vpinsrq','vinserti128','vpinsrd']:
     cmd_data = {
         #  4 operand:
         4: {
@@ -601,4 +632,14 @@ cmd_data = {
     }
 }
 cmd_x86['vzeroupper'] = cmd_data
+
+# cdq
+cmd_data = {
+    # cdq 0 operand:
+    0: {
+        'special_reg_dependancy': ['a'],
+        'special_reg_change': ['d']
+    }
+}
+cmd_x86['cdq'] = cmd_data
 

@@ -4,6 +4,7 @@ import sys
 import ast
 import math
 from time import sleep
+import pickle
 
 from thread import thread
 from execution_macro import execution_macro
@@ -14,9 +15,23 @@ class Simulator:
     def __init__(self, threads_traces, cfg_dct,logger_path):
         self.threads = []
         for i, f in enumerate(threads_traces):
-            cur_thread     = thread(f'{os.getcwd()}/trace_files/{f}', i)
+            if os.path.isfile(f'{os.getcwd()}/trace_files/{f}.bindump'):
+                print(f'using store data: {os.getcwd()}/trace_files/{f}.bindump')
+                with open(f'{os.getcwd()}/trace_files/{f}.bindump', 'rb') as f:
+                    cur_thread = pickle.load(f)
+                    print('load finished')
+                cur_thread.thread_id = i
+            else:
+                print(f'initiating: {os.getcwd()}/trace_files/{f}.trc')
+                cur_thread     = thread(f'{os.getcwd()}/trace_files/{f}.trc', i)
+                print('initialization finished, saving bindump')
+                with open(f'{os.getcwd()}/trace_files/{f}.bindump', 'wb') as f:
+                    pickle.dump(cur_thread, f)
+                print('save finished')
+
             cur_thread.sim = self
             self.threads.append(cur_thread)
+
 
         self.cpi_per_thread = []
         self.usage_per_unit = []

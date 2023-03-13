@@ -66,9 +66,9 @@ class command:
 
     def __str__(self):
         s = ''
-        s += f'{self.thread.thread_id}_{self.id} -> {self.org_cmd}  ({self.state}): '
+        s += f'{self.thread.thread_id}_{self.id} -> {self.org_cmd}  ({self.state})'
         if self.dependency:
-            s += f'\n\tDependancies :\n'
+            s += f':\n\tDependancies :\n'
             for c in self.dependency:
                 s += f'\t{c.thread.thread_id}_{c.id}  {c.cmd_type}  ({c.state})\n'
         return s

@@ -7,11 +7,12 @@ from cmd_x86_dep_dict import cmd_x86
 
 def lines_to_cmd_l(lines,thread):
     #initiate reg owner for dependancy calculation
-    special_reg_names = ['di','si','ip','sp','bp']
-    abc_reg_names     = ['a','b','c','d']
-    numeral_reg_names = [f'r{i}' for i in range(8,15)]
-    extended_reg_names = [f'xmm{i}' for i in range(8)]
-    reg_names = special_reg_names + abc_reg_names + numeral_reg_names + extended_reg_names
+    special_reg_names   = ['di','si','ip','sp','bp']
+    abc_reg_names       = ['a','b','c','d']
+    numeral_reg_names   = [f'r{i}' for i in range(8,15)]
+    extended_reg_names  = [f'xmm{i}' for i in range(11)]
+    extended_reg_names2 = [f'ymm{i}' for i in range(10)]
+    reg_names = special_reg_names + abc_reg_names + numeral_reg_names + extended_reg_names + extended_reg_names2
     
     regs_owner = {}
     for r in reg_names:
@@ -24,7 +25,7 @@ def lines_to_cmd_l(lines,thread):
                 if s == r or (s[:-1] == r and s[-1] == c) :
                     return [r] , is_only_reg
 
-        for r in numeral_reg_names:
+        for r in numeral_reg_names + extended_reg_names + extended_reg_names2:
             if s == r:
                 return [r] , is_only_reg
 
@@ -41,14 +42,9 @@ def lines_to_cmd_l(lines,thread):
             is_only_reg = False
             s = s.split('[')[1].split(']')[0]
 
-            for r in numeral_reg_names:
+            for r in numeral_reg_names + extended_reg_names + extended_reg_names2:
                 if r in s :
                     regs.append(r)
-
-            for r in numeral_reg_names:
-                if r == s:
-                    regs.append(r)
-
 
             for r in abc_reg_names:
                 for er in [f'r{r}x',f'e{r}x',f'{r}x',f'{r}l']:
@@ -106,8 +102,8 @@ def lines_to_cmd_l(lines,thread):
         if cmd_type not in cmd_x86:
             print(f'NO SUCH COMMAND!: {cmd.org_cmd}')
             cnt += 1
-            if cnt > 30:
-                sys.exit()
+            # if cnt > 30:
+            #     sys.exit()
             continue
         # print(cmd)
         try:
@@ -155,12 +151,11 @@ class thread:
     def __init__(self,path,i):
         with open(path,'r') as f:
             lines = f.readlines()
-        print(path)
 
         self.thread_id      = i
         self.bench          = path.split('.')[-2].split('/')[-1]
         # Edit here for shorter lines
-        self.cmds           = lines_to_cmd_l(lines, self)
+        self.cmds           = lines_to_cmd_l(lines[::10], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
