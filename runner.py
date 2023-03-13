@@ -5,17 +5,22 @@ import ast
 import argparse
 import signal
 import multiprocessing
+import pdb
 sys.path.insert(1, f'{os.getcwd()}/classes')
 from simulator import Simulator
 
 def handler(signum, frame):
     print("what do you want?")
     print("1 - abort (default)")
-    print("2 - continue (default)")
+    print("2 - continue ")
+    print("3 - debug ")
     user_choice = input()
     global stop_render
     if user_choice=="2":
         pass
+    elif user_choice=="3":
+        print("debugging!")
+        pdb.set_trace()
     else:
         sys.exit()
 signal.signal(signal.SIGINT, handler)

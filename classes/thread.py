@@ -155,7 +155,7 @@ class thread:
         self.thread_id      = i
         self.bench          = path.split('.')[-2].split('/')[-1]
         # Edit here for shorter lines
-        self.cmds           = lines_to_cmd_l(lines[::10], self)
+        self.cmds           = lines_to_cmd_l(lines[::30], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
@@ -260,7 +260,7 @@ class thread:
         s = ''
         s += f'thread #{self.thread_id}{(3-len(str(self.thread_id)))*" "}- '
         s += f'{self.bench}{(10-len(str(self.bench)))*" "}'
-        if self.sim_done():
+        if self.is_done():
             s += f', {tot_cmds} commands, cpi {round(self.get_cpi(),3)}:\n'
             hist = self.get_hist()
             for i , (ut , cnt) in enumerate(hist):
@@ -268,4 +268,12 @@ class thread:
         else:
             s += f': cmd left: {len(self.cmds)} ,done: {tot_cmds} ({self.state})'
         return s
+
+    def view_cmds(self,cnt=10):
+        for i in range(cnt):
+            print(f'{i} : {self.cmds[i]}')
+
+    def view_done_cmds(self,cnt=10):
+        for i in range(cnt):
+            print(f'{i} : {self.done_cmds[-i]}')
 

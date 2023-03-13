@@ -5,6 +5,8 @@ import ast
 import math
 from time import sleep
 import pickle
+import pdb
+
 
 from thread import thread
 from execution_macro import execution_macro
@@ -114,6 +116,7 @@ class Simulator:
                     self.execution_macro.add_thread(new_thread)
 
         self.sim_done = True
+        pdb.set_trace()
 
     def calc_statitstics(self, to_stdout=False):
         for t in self.threads:
