@@ -3,8 +3,15 @@ import os
 import sys
 import ast
 import argparse
+import multiprocessing
 sys.path.insert(1, f'{os.getcwd()}/classes')
 from simulator import Simulator
+
+def simulator_generator(self, thread_traces, cfg_dct, log_file):
+    simulator = Simulator(thread_traces, cfg_dct, log_file)
+    simulator.simulate_on()
+    simulator.calc_statitstics(to_stdout=True)
+
 
 parser = argparse.ArgumentParser()
 
@@ -31,7 +38,22 @@ else:
 with open(args.config_path) as f:
     cfg_dct = ast.literal_eval(f.read())
 
+processes = []
 for k in range(num_of_simulators):
-    simulator = Simulator(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log')
+    p = multiprocessing.Process(target=simulator_generator,\
+                            args=(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log'))
+    processes.append(p)
+
+for p in processes:
+    p.start()
+
+
+# Wait for all simulations to complete
+for p in processes:
+    p.join()
+
+
+
+    # simulator = Simulator(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log')
     # simulator.simulate_on()
     # simulator.calc_statitstics(to_stdout=True)
