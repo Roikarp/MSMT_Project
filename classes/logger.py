@@ -12,4 +12,4 @@ class logger:
 
 	def info(self, messege):
 		# Log a message to the file
-		self.logger_obj.info('This is a log message')
+		self.logger_obj.info(messege)
