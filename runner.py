@@ -3,15 +3,27 @@ import os
 import sys
 import ast
 import argparse
+import signal
 import multiprocessing
 sys.path.insert(1, f'{os.getcwd()}/classes')
 from simulator import Simulator
+
+def handler(signum, frame):
+    print("what do you want?")
+    print("1 - abort (default)")
+    print("2 - continue (default)")
+    user_choice = input()
+    global stop_render
+    if user_choice=="2":
+        pass
+    else:
+        sys.exit()
+signal.signal(signal.SIGINT, handler)
 
 def simulator_generator(thread_traces, cfg_dct, log_file):
     simulator = Simulator(thread_traces, cfg_dct, log_file)
     simulator.simulate_on()
     simulator.calc_statitstics(to_stdout=True)
-
 
 parser = argparse.ArgumentParser()
 
@@ -39,18 +51,21 @@ else:
 with open(args.config_path) as f:
     cfg_dct = ast.literal_eval(f.read())
 
-processes = []
-for k in range(num_of_simulators):
-    p = multiprocessing.Process(target=simulator_generator,\
-                            args=(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log'))
-    processes.append(p)
+if num_of_simulators > 1:
+    processes = []
+    for k in range(num_of_simulators):
+        p = multiprocessing.Process(target=simulator_generator,\
+                                args=(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log'))
+        processes.append(p)
 
-for p in processes:
-    p.start()
+    for p in processes:
+        p.start()
 
 
-# Wait for all simulations to complete
-for p in processes:
-    p.join()
+    # Wait for all simulations to complete
+    for p in processes:
+        p.join()
+else:
+    simulator_generator(threads_traces_list[0], cfg_dct, f'{args.output_dir}/logger_0.log')
 
     

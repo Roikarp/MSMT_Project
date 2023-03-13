@@ -3,7 +3,7 @@ import os
 import sys
 sys.path.insert(1, f'{os.getcwd()}/../')
 from cycle import *
-from cmd_x86_exec_dict import fp_l, br_l, alu_l, st_ld_l, misc_l
+from cmd_x86_exec_dict import fp_s, br_s, alu_s, st_ld_s
 
 
 class command:
@@ -31,38 +31,35 @@ class command:
         return True
 
     def is_type(self, unit_type):
-        known_type = alu_l + br_l + fp_l + st_ld_l + misc_l
-
+        if unit_type == 'st_ld':
+            if self.cmd_type in st_ld_s:
+                return True
         if self.use_mem:
+            if unit_type == 'fp_st_ld':
+                if self.cmd_type in fp_s:
+                    return True
             if unit_type == 'alu_st_ld':
-                if self.cmd_type in alu_l:
+                if self.cmd_type in alu_s:
                     return True
             if unit_type == 'br_st_ld':
-                if self.cmd_type in br_l:
+                if self.cmd_type in br_s:
                     return True
             if unit_type == 'misc_st_ld':
-                if self.cmd_type in misc_l:
-                    return True
+                return True
         else:
             if unit_type == 'alu':
-                if self.cmd_type in alu_l:
+                if self.cmd_type in alu_s:
+                    return True
+            if unit_type == 'fp':
+                if self.cmd_type in fp_s:
                     return True
             if unit_type == 'br':
-                if self.cmd_type in br_l:
+                if self.cmd_type in br_s:
                     return True
             if unit_type == 'misc':
-                if self.cmd_type in misc_l:
-                    return True
-
-        if unit_type == 'st_ld':
-            if self.cmd_type in st_ld_l:
                 return True
-
-
-
-        if self.cmd_type not in known_type:
-            print(f'UNKNOWN EXEC TYPE:\n{self}\n {unit_type}')
-        return self.cmd_type not in known_type
+                
+        return False
 
     def __str__(self):
         s = ''

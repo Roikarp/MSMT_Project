@@ -40,7 +40,7 @@ class Simulator:
         self.sim_done = False
         self.cycle = 0
         self.logger = logger(logger_path)
-        self.calculated_mem_miss_rate = 1/(1+math.exp(math.log(9)-0.25*(len(self.threads)-1)))
+        self.calculated_mem_miss_rate = 1/(1+math.exp(math.log(9)-0.025*(len(self.threads)-1)**2))
 
         self.execution_macro = execution_macro(cfg_dct,self)
 
