@@ -4,10 +4,12 @@ import sys
 import ast
 import argparse
 import signal
+import json
 import multiprocessing
 import pdb
 sys.path.insert(1, f'{os.getcwd()}/classes')
 from simulator import Simulator
+
 
 def handler(signum, frame):
     print("what do you want?")
@@ -23,13 +25,24 @@ def handler(signum, frame):
         pdb.set_trace()
     else:
         sys.exit()
-signal.signal(signal.SIGINT, handler)
 
-def simulator_generator(thread_traces, cfg_dct, log_file):
+
+def simulator_generator(thread_traces, cfg_dct, out_path, idx, origin_file_name):
+    log_file = f'{out_path}/logger_{idx}.log'
     simulator = Simulator(thread_traces, cfg_dct, log_file)
     simulator.simulate_on()
-    simulator.calc_statitstics(to_stdout=True)
+    statistics_dict = simulator.calc_statitstics(to_stdout=True)
 
+    threads_count = statistics_dict.get('num_threads')
+    json_file_name = f'{out_path}/statistics_dict{idx}_{origin_file_name}.json'
+    json_str = json.dumps(statistics_dict, indent=4)
+
+    # Write the JSON string to a file
+    with open(json_file_name, "w") as json_file:
+        json_file.write(json_str)
+
+
+signal.signal(signal.SIGINT, handler)
 parser = argparse.ArgumentParser()
 
 # Add the argument for the file path
@@ -59,8 +72,8 @@ with open(args.config_path) as f:
 if num_of_simulators > 1:
     processes = []
     for k in range(num_of_simulators):
-        p = multiprocessing.Process(target=simulator_generator,\
-                                args=(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log'))
+        p = multiprocessing.Process(target=simulator_generator, args=(threads_traces_list[k], \
+                                                                      cfg_dct, args.output_dir, k, files[k]))
         processes.append(p)
 
     for p in processes:
@@ -71,6 +84,6 @@ if num_of_simulators > 1:
     for p in processes:
         p.join()
 else:
-    simulator_generator(threads_traces_list[0], cfg_dct, f'{args.output_dir}/logger_0.log')
+    simulator_generator(threads_traces_list[0], cfg_dct, args.output_dir, 0, (args.threads_path.split('/')[-1]).split('.')[0])
 
     

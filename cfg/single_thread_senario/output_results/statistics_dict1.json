@@ -1,0 +1,23 @@
+{
+    "num_threads": 1,
+    "threads": {
+        "thread0": {
+            "Name": "bwave",
+            "CPI": 10.349979160556336
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 3.62,
+            "unit alu utilization %": 3.333,
+            "unit alu_st_ld utilization %": 6.937,
+            "unit fp utilization %": 0.003,
+            "unit fp_st_ld utilization %": 0.01,
+            "unit br utilization %": 1.286,
+            "unit br_st_ld utilization %": 0.002,
+            "unit misc utilization %": 7.963,
+            "unit misc_st_ld utilization %": 8.177
+        },
+        "Jain's fairness index": 1.0
+    }
+}

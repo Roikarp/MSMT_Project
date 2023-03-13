@@ -6,15 +6,20 @@ import math
 from time import sleep
 import pickle
 import pdb
-
+import signal
 
 from thread import thread
 from execution_macro import execution_macro
 from scheduler import Scheduler, RoundRobinScheduler, LRUScheduler, FaintScheduler
 from logger import logger
 
+def handler(signum, frame):
+    print("what do you want?")
+    print("1 - abort (default)")
+
 class Simulator:
     def __init__(self, threads_traces, cfg_dct,logger_path):
+        signal.signal(signal.SIGINT, handler)
         self.threads = []
         for i, f in enumerate(threads_traces):
             if os.path.isfile(f'{os.getcwd()}/trace_files/{f}.bindump'):
@@ -83,8 +88,9 @@ class Simulator:
                 print(self.execution_macro)
                 for t in self.threads:
                     print(t)
-            #         for c in t.cmds[:10]:
-            #             print(c)
+                    if len(t.cmds) < 20:
+                        for c in t.cmds:
+                            print(c)
             if self.cycle > 30:
                 x = 5
             # for t in self.threads:
@@ -119,36 +125,41 @@ class Simulator:
         pdb.set_trace()
 
     def calc_statitstics(self, to_stdout=False):
+        stats_dict = {
+            'num_threads': len(self.threads),
+            'threads': {},
+            'system': {
+                'Units Utilization': {},
+                'Jain\'s fairness index': None
+            }
+        }
         for t in self.threads:
             cpi = t.get_cpi()
             self.cpi_per_thread.append(cpi)
+            stats_dict['threads'][f'thread{t.thread_id}'] = {'Name': t.bench, 'CPI': cpi}
+            # stats_dict['threads'][f'thread{t.thread_id} Name'] = t.bench
+            # stats_dict['threads'][f'thread{t.thread_id} CPI'] = cpi
 
         for unit in self.execution_macro.execution_units:
-            usage = unit.active_cycles / self.cycle
+            usage = round((unit.active_cycles / self.cycle)*100, 3)
             self.usage_per_unit.append(usage)
+            stats_dict['system']['Units Utilization'][f'unit {unit.unit_type} utilization %'] = usage
 
         self.total_cpi = self.cycle / sum([t.get_inst_cnt() for t in self.threads])
 
         ipc_per_thread = [1 / cpi for cpi in self.cpi_per_thread]
         self.fairness = (sum(ipc_per_thread) ** 2) / (len(self.threads) * sum([ipc ** 2 for ipc in ipc_per_thread]))
+        stats_dict['system']['Jain\'s fairness index'] = self.fairness
 
         if to_stdout:
-            print('Thread summary:')
+            self.logger.info('thread summary:')
             for i, t in enumerate(self.threads):
-                print(t)
-            print('Execution unit summary:')
+                self.logger.info(t)
+                self.logger.info(self.cpi_per_thread[i])
+            self.logger.info('execution unit summary:')
             for i, unit in enumerate(self.execution_macro.execution_units):
-                print(unit)
-            print(f'Total cpi:{self.total_cpi}')
-            print(f'Fairness:{self.fairness}')
-        print(f'Total simulation was {self.cycle} cycles')
-
-        self.logger.info('Thread summary:')
-        for i, t in enumerate(self.threads):
-            self.logger.info(t)
-        self.logger.info('Execution unit summary:')
-        for i, unit in enumerate(self.execution_macro.execution_units):
-            self.logger.info(unit)
-        self.logger.info(f'Total cpi:{self.total_cpi}')
-        self.logger.info(f'Fairness:{self.fairness}')
-        self.logger.info(f'Total simulation was {self.cycle} cycles')
+                self.logger.info(unit)
+            self.logger.info(f'total cpi:{self.total_cpi}')
+            self.logger.info(f'fairness:{self.fairness}')
+            self.logger.info(self.cpi_per_thread)
+        return stats_dict

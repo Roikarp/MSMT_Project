@@ -1,0 +1,23 @@
+{
+    "num_threads": 1,
+    "threads": {
+        "thread0": {
+            "Name": "fotonik3d",
+            "CPI": 10.12239432050518
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 4.685,
+            "unit alu utilization %": 3.513,
+            "unit alu_st_ld utilization %": 6.737,
+            "unit fp utilization %": 0.008,
+            "unit fp_st_ld utilization %": 0.006,
+            "unit br utilization %": 1.298,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 7.908,
+            "unit misc_st_ld utilization %": 8.036
+        },
+        "Jain's fairness index": 1.0
+    }
+}
