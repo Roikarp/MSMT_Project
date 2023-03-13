@@ -38,6 +38,9 @@ class Scheduler:
     def remove_thread(self, t):
         self.threads.remove(t)
 
+    def get_cycle(self):
+        return self.sim.cycle
+
 
 class RoundRobinScheduler(Scheduler):
     def __init__(self, name, threads):
@@ -63,7 +66,7 @@ class FaintScheduler(Scheduler):
     def add_thread(self, threads):
         if type(threads) is not list:
             threads = [threads]
-        threads = [{'thread': t, 'accesses': 0} for t in threads]
+        threads = [{'thread': t, 'accesses': t.accesses} for t in threads]
         super().add_thread(threads)
 
     def touch_thread(self, t):
@@ -91,31 +94,24 @@ class FaintScheduler(Scheduler):
         return None
 
     def remove_thread(self, t):
-        threads_only_list = [element['thread'] for element in self.threads]
-        threads_only_list.remove(t)
+        for dict_elem in self.threads:
+            if t == dict_elem['thread']:
+                self.threads.remove(dict_elem)
+                return
+        print("The given thread does not exist in scheduler")
 
 
 class LRUScheduler(Scheduler):
     def __init__(self, name, threads):
         super().__init__(name, threads)
-        self.threads = [{'thread': t, 'last_use_cycle': -1} for t in self.threads]
+        self.threads = [{'thread': t, 'last_use_cycle': t.last_use} for t in self.threads]
         self.policy = "LRU"
 
     def add_thread(self, threads):
         if type(threads) is not list:
             threads = [threads]
-        new_threads = []
-        for t in threads:
-            for l in reversed(t.log):
-                # Find last cycle that this thread has run
-                if l['event'] in ['running']:
-                    last_use_cyc = l['cycle']
-                    break
-                # If this thread is virgin, initialize it
-                else:
-                    last_use_cyc = -1
-            new_threads.append({'thread': t, 'last_use_cycle': last_use_cyc})
-        super().add_thread(new_threads)
+        threads = [{'thread': t, 'last_use_cycle': t.last_use} for t in threads]
+        super().add_thread(threads)
 
     def touch_thread(self, t):
         for t_dict in self.threads:
@@ -142,9 +138,12 @@ class LRUScheduler(Scheduler):
         return None
 
     def remove_thread(self, t):
-        threads_only_list = [element['thread'] for element in self.threads]
-        threads_only_list.remove(t)
+        for dict_elem in self.threads:
+            if t == dict_elem['thread']:
+                self.threads.remove(dict_elem)
+                return
+        print("The given thread does not exist in scheduler")
 
-    def get_cycle(self):
-        return self.sim.cycle
+
+
 

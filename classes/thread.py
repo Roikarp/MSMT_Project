@@ -70,6 +70,8 @@ def lines_to_cmd_l(lines,thread):
             continue
         if l[0:18] == 'Instruction count ':
             continue
+        if l[0:18] == 'Invalidating Cache':
+            continue
         if i%50000 == 0:
             print(i)
 
@@ -82,11 +84,12 @@ def lines_to_cmd_l(lines,thread):
 
         cmd.org_cmd    = l.strip()
         cmd.org_adress = l.split(':')[0]
+        # print (l)
         cmd_right_part       = l.split(':',1)[1].strip()
 
         if cmd_right_part[0:7] == 'data16 ':
             cmd_right_part = cmd_right_part[7:]
-        if cmd_right_part[0:4] == 'rep ': #### this is a problem! it changes depends on value of ECX
+        if cmd_right_part[0:4] == 'rep ':
             cmd.dependency.add(regs_owner['c'])
             cmd_right_part = cmd_right_part[4:]
         if cmd_right_part[0:4] == 'bnd ':
@@ -157,7 +160,7 @@ class thread:
         self.thread_id      = i
         self.bench          = path.split('.')[-2].split('/')[-1]
         # Edit here for shorter lines
-        self.cmds           = lines_to_cmd_l(lines[:100000], self)
+        self.cmds           = lines_to_cmd_l(lines, self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
@@ -165,6 +168,8 @@ class thread:
         self.penalty_finish = 0
         self.log            = []
         self.sim            = None
+        self.last_use       = -1
+        self.accesses       = 0
 
     def is_done(self):
         self._update_state()
@@ -207,6 +212,7 @@ class thread:
         if self.state == "context_switch_delay":
             if self.get_cycle() > self.delay_finish:
                 self.log.append({'cycle':self.get_cycle(),'event':'running'})
+                self.last_use = self.get_cycle()
                 self.state = "running"
         if self.state in ['missed_mem_penalty','missed_pred_penalty','missed_penalty']:
             if self.get_cycle() > self.penalty_finish:

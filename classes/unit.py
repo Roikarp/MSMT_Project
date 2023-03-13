@@ -3,15 +3,16 @@
 import random
 
 class unit:
-    def __init__(self,cfg_dct):
+    def __init__(self,cfg_dct,sim):
         self.unit_type     = cfg_dct['unit_type']
         self.latency       = cfg_dct['latency']
         self.cmd           = None
         self.cur_cycle     = 0
         self.active_cycles = 0 #total active cycles
+        self.sim           = sim
 
         #mem miss data
-        self.miss_mem_rate    = cfg_dct.get('miss_mem_rate',0)
+        self.miss_mem_rate    = cfg_dct.get('miss_mem_rate',self.sim.get_mem_miss_rate())
         self.miss_mem_penalty = cfg_dct.get('miss_mem_penalty',0)
         self.miss_mem_cycle   = cfg_dct.get('miss_mem_cycle',0)
         self.missed_mem       = False

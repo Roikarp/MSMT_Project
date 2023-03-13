@@ -14,8 +14,7 @@ class execution_macro:
         self.execution_units = []
         for unit_type in ['st_ld','alu','alu_st_ld','fp','fp_st_ld','br','br_st_ld','misc','misc_st_ld']:
             for i in range(macro_dict[f'{unit_type}_unit_num']):
-                self.execution_units.append(unit(cfg_dct[f'{unit_type}_unit']))
-                self.execution_units[-1].sim = sim
+                self.execution_units.append(unit(cfg_dct[f'{unit_type}_unit'],sim))
 
         if cfg_dct['scheduler']['inner_policy'] == 'LRU':
             self.sched = LRUScheduler("inner", self.threads)

@@ -2,6 +2,7 @@
 import os
 import sys
 import ast
+import math
 from time import sleep
 
 from thread import thread
@@ -17,6 +18,15 @@ class Simulator:
             cur_thread.sim = self
             self.threads.append(cur_thread)
 
+        self.cpi_per_thread = []
+        self.usage_per_unit = []
+        self.total_cpi = None
+        self.fairness = None
+        self.sim_done = False
+        self.cycle = 0
+        self.logger = logger(logger_path)
+        self.calculated_mem_miss_rate = 1/(1+math.exp(math.log(9)-0.25*(len(self.threads)-1)))
+
         self.execution_macro = execution_macro(cfg_dct,self)
 
         if cfg_dct['scheduler']['outer_policy'] == 'LRU':
@@ -29,13 +39,8 @@ class Simulator:
             self.scheduler = Scheduler("outer", self.threads)
         self.scheduler.sim = self
 
-        self.cpi_per_thread = []
-        self.usage_per_unit = []
-        self.total_cpi = None
-        self.fairness = None
-        self.sim_done = False
-        self.cycle = 0
-        self.logger = logger(logger_path)
+    def get_mem_miss_rate(self):
+        return self.calculated_mem_miss_rate
 
     def simulate_on(self):
         self.cycle = 0
