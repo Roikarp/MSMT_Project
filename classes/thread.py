@@ -157,7 +157,7 @@ class thread:
         self.thread_id      = i
         self.bench          = path.split('.')[-2].split('/')[-1]
         # Edit here for shorter lines
-        self.cmds           = lines_to_cmd_l(lines[:200000], self)
+        self.cmds           = lines_to_cmd_l(lines[:100000], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
@@ -217,9 +217,9 @@ class thread:
         return self.cmd_to_run
 
     def set_missed(self,penalty_finish):
-        self.log.append({'cycle':self.get_cycle(),'event':'missed_penalty'})
+        self.log.append({'cycle':self.get_cycle(),'event':'missed_mem_penalty'})
         self.penalty_finish = penalty_finish
-        self.state = 'missed_penalty'
+        self.state = 'missed_mem_penalty'
 
     def set_done(self):
         self.log.append({'cycle':self.get_cycle(),'event':'done'})

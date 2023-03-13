@@ -85,13 +85,14 @@ class command:
         self.log.append({'cycle':self.get_cycle(),'event':'missed_mem'})
         self.state = 'missed_mem'
         self.penalty_finish = self.get_cycle() + miss_penalty
-        self.thread.set_missed(self.penalty_finish)
+        self.thread.penalty_finish = self.penalty_finish
+        self.thread.state = 'missed_mem_penalty'
 
     def set_missed_pred(self,miss_penalty):
         self.log.append({'cycle':self.get_cycle(),'event':'missed_pred'})
         self.state = 'missed_pred'
         self.penalty_finish = self.get_cycle() + miss_penalty
-        # self.thread.set_missed(self.penalty_finish)
+        self.thread.set_missed(self.penalty_finish)
 
     def set_done(self,unit_type):
         self.log.append({'cycle':self.get_cycle(),'event':'done'})

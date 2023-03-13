@@ -79,7 +79,7 @@ class unit:
         s = ''
         s += f'== {self.unit_type} Unit =={"="*(10-len(self.unit_type))} '
         if self.sim_done():
-            s += f'\nUsage: {self.active_cycles / self.get_cycle()}'
+            s += f'\nUsage: {round((100*self.active_cycles) / self.get_cycle(),3)}%'
         else:
             s += f'Current Command: {self.cmd}'
         return s

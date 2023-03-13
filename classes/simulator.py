@@ -113,19 +113,19 @@ class Simulator:
             print('Thread summary:')
             for i, t in enumerate(self.threads):
                 print(t)
-            print('execution unit summary:')
+            print('Execution unit summary:')
             for i, unit in enumerate(self.execution_macro.execution_units):
                 print(unit)
-            print(f'total cpi:{self.total_cpi}')
-            print(f'fairness:{self.fairness}')
-        print(self.cpi_per_thread)            
+            print(f'Total cpi:{self.total_cpi}')
+            print(f'Fairness:{self.fairness}')
+        print(f'Total simulation was {self.cycle} cycles')
 
         self.logger.info('Thread summary:')
         for i, t in enumerate(self.threads):
             self.logger.info(t)
-        self.logger.info('execution unit summary:')
+        self.logger.info('Execution unit summary:')
         for i, unit in enumerate(self.execution_macro.execution_units):
             self.logger.info(unit)
-        self.logger.info(f'total cpi:{self.total_cpi}')
-        self.logger.info(f'fairness:{self.fairness}')
-        self.logger.info(self.cpi_per_thread)            
+        self.logger.info(f'Total cpi:{self.total_cpi}')
+        self.logger.info(f'Fairness:{self.fairness}')
+        self.logger.info(f'Total simulation was {self.cycle} cycles')
