@@ -11,6 +11,7 @@ parser = argparse.ArgumentParser()
 # Add the argument for the file path
 parser.add_argument("-t", "--threads_path", help="path to the threads traces file")
 parser.add_argument("-c", "--config_path", help="path to the execution macro configuration file")
+parser.add_argument("-od", "--output_dir", help="path to the dir for loggers")
 args = parser.parse_args()
 
 # Case of many traces files to check
@@ -31,6 +32,6 @@ with open(args.config_path) as f:
     cfg_dct = ast.literal_eval(f.read())
 
 for k in range(num_of_simulators):
-    simulator = Simulator(threads_traces_list[k], cfg_dct)
-    simulator.simulate_on()
-    simulator.calc_statitstics(to_stdout=True)
+    simulator = Simulator(threads_traces_list[k], cfg_dct, f'{args.output_dir}/logger_{k}.log')
+    # simulator.simulate_on()
+    # simulator.calc_statitstics(to_stdout=True)
