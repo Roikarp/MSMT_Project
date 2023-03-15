@@ -122,7 +122,7 @@ class Simulator:
                     self.execution_macro.add_thread(new_thread)
 
         self.sim_done = True
-        pdb.set_trace()
+        # pdb.set_trace()
 
     def calc_statitstics(self, to_stdout=False):
         stats_dict = {
@@ -130,9 +130,9 @@ class Simulator:
             'threads': {},
             'system': {
                 'Units Utilization': {},
+                'System CPI': None,
                 'Jain\'s fairness index': None
-            }
-        }
+            }        }
         for t in self.threads:
             cpi = t.get_cpi()
             self.cpi_per_thread.append(cpi)
@@ -149,6 +149,7 @@ class Simulator:
 
         ipc_per_thread = [1 / cpi for cpi in self.cpi_per_thread]
         self.fairness = (sum(ipc_per_thread) ** 2) / (len(self.threads) * sum([ipc ** 2 for ipc in ipc_per_thread]))
+        stats_dict['system']['System CPI'] = self.total_cpi
         stats_dict['system']['Jain\'s fairness index'] = self.fairness
 
         if to_stdout:

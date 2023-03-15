@@ -155,7 +155,15 @@ class thread:
         self.thread_id      = i
         self.bench          = path.split('.')[-2].split('/')[-1]
         # Edit here for shorter lines
-        self.cmds           = lines_to_cmd_l(lines[::30], self)
+        if self.bench == 'bwave':
+            jumper = 2
+        elif self.bench == 'fotonik3d':
+            jumper = 20
+        elif self.bench in ['perl', 'gcc']:
+            jumper = 30
+        else:
+            jumper = 40
+        self.cmds           = lines_to_cmd_l(lines[::jumper], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'
