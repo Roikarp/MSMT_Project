@@ -18,10 +18,12 @@ class command:
         self.penalty_finish = 0
         self.id             = 0 
         self.use_mem        = False
+        self.already_missed = False
 
     def is_done(self):
         return self.state == 'done'
     def is_missed(self):
+        self.already_missed = True
         return 'missed' in self.state
 
     def is_ready(self):

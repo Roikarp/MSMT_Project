@@ -163,7 +163,8 @@ class thread:
             jumper = 30
         else:
             jumper = 40
-        self.cmds           = lines_to_cmd_l(lines[::jumper], self)
+
+        self.cmds           = lines_to_cmd_l(lines[::jumper*4], self)
         self.cmd_to_run     = len(self.cmds)
         self.done_cmds      = []
         self.state          = 'pending'

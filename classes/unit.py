@@ -31,8 +31,10 @@ class unit:
     def add_inst(self,cmd):
         self.cmd         = cmd
         self.cur_cycle   = 0
-        self.missed_mem  = random.random() < self.miss_mem_rate
-        self.missed_pred = random.random() < self.miss_pred_rate
+        prob_comparison_val = 1 if cmd.already_missed else random.random()
+        self.missed_mem  = prob_comparison_val < self.miss_mem_rate 
+        self.missed_pred = prob_comparison_val < self.miss_pred_rate 
+
 
     def is_active(self):
         if not self.cmd:

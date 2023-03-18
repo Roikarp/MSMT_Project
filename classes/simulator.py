@@ -132,7 +132,8 @@ class Simulator:
                 'Units Utilization': {},
                 'System CPI': None,
                 'Jain\'s fairness index': None
-            }        }
+            }    
+        }
         for t in self.threads:
             cpi = t.get_cpi()
             self.cpi_per_thread.append(cpi)
