@@ -27,6 +27,9 @@ class execution_macro:
         self.sched.sim = sim
 
     def run(self):
+        for t in self.threads:
+            if t.state == 'pending':
+                t.state = 'running'
         for unit in self.execution_units:
             if not unit.is_active():
                 inst = unit.pop_inst_output()
@@ -54,8 +57,15 @@ class execution_macro:
                 return True
         return False
 
-    def pop_stuck_threads(self):
-        stuck_threads = [t for t in self.threads if t.is_missed()]
+    def pop_stuck_threads(self,cnt):
+        stuck_threads = []
+        i = 0
+        for t in self.threads:
+            if t.is_missed():
+                stuck_threads.append(t)
+                i += 1
+                if i >= cnt:
+                    break
         for t in stuck_threads:
             self.sched.remove_thread(t)
         self.threads = [t for t in self.threads if t not in stuck_threads]

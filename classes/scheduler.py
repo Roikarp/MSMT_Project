@@ -41,6 +41,12 @@ class Scheduler:
     def get_cycle(self):
         return self.sim.cycle
 
+    def cnt_pending_threads(self):
+        if self.name == "inner":
+            return sum(1 for t in self.threads if t.get_by_type(inst_type, inst_window_size) is not None)
+        if self.name == "outer":
+            return sum(1 for t in self.threads if t.is_pending())
+
 
 class RoundRobinScheduler(Scheduler):
     def __init__(self, name, threads):

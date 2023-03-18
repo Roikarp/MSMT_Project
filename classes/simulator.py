@@ -16,6 +16,7 @@ from logger import logger
 def handler(signum, frame):
     print("what do you want?")
     print("1 - abort(default)")
+    sys.exit()
 
 class Simulator:
     def __init__(self, threads_traces, cfg_dct,logger_path):
@@ -45,6 +46,7 @@ class Simulator:
         self.calculated_mem_miss_rate = 1/(1+math.exp(math.log(9)-0.025*(len(self.threads)-1)**2))
 
         self.execution_macro = execution_macro(cfg_dct,self)
+        self.cfg_dct = cfg_dct
 
         if cfg_dct['scheduler']['outer_policy'] == 'LRU':
             self.scheduler = LRUScheduler("outer", self.threads)
@@ -86,8 +88,8 @@ class Simulator:
                     if len(t.cmds) < 20:
                         for c in t.cmds:
                             print(c)
-            if self.cycle > 30:
-                x = 5
+            # if self.cycle > 30:
+            #     x = 5
             # for t in self.threads:
             #     print(t)
             #     for c in t.cmds[:10]:
@@ -102,8 +104,9 @@ class Simulator:
             self.execution_macro.pop_done_threads()
 
             # handle communication between parts
-            if self.execution_macro.has_stuck_threads():
-                stuck_threads = self.execution_macro.pop_stuck_threads()
+            ready_threads = self.scheduler.cnt_pending_threads()
+            if self.execution_macro.has_stuck_threads() and ready_threads:
+                stuck_threads = self.execution_macro.pop_stuck_threads(ready_threads)
                 # print("NEW THREADS IN SCHED:")
                 # for t in stuck_threads:
                 #     print(t)
@@ -127,7 +130,8 @@ class Simulator:
                 'Units Utilization': {},
                 'System CPI': None,
                 'Jain\'s fairness index': None
-            }    
+            },
+            'cfg_dct':self.cfg_dct
         }
         for t in self.threads:
             cpi = t.get_cpi()
