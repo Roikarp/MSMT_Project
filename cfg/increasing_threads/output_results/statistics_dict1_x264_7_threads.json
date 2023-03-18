@@ -1,0 +1,48 @@
+{
+    "num_threads": 7,
+    "threads": {
+        "thread0": {
+            "Name": "x264",
+            "CPI": 19.213293902624766
+        },
+        "thread1": {
+            "Name": "x264",
+            "CPI": 19.388079402954766
+        },
+        "thread2": {
+            "Name": "x264",
+            "CPI": 19.02956033913794
+        },
+        "thread3": {
+            "Name": "x264",
+            "CPI": 19.28789917246281
+        },
+        "thread4": {
+            "Name": "x264",
+            "CPI": 19.065555668375893
+        },
+        "thread5": {
+            "Name": "x264",
+            "CPI": 19.12821749505001
+        },
+        "thread6": {
+            "Name": "x264",
+            "CPI": 19.12924557039143
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 1.084,
+            "unit alu utilization %": 11.244,
+            "unit alu_st_ld utilization %": 27.083,
+            "unit fp utilization %": 14.523,
+            "unit fp_st_ld utilization %": 36.137,
+            "unit br utilization %": 0.924,
+            "unit br_st_ld utilization %": 0.001,
+            "unit misc utilization %": 31.137,
+            "unit misc_st_ld utilization %": 32.447
+        },
+        "System CPI": 2.769729255361585,
+        "Jain's fairness index": 0.999962561511891
+    }
+}
