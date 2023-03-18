@@ -30,7 +30,7 @@ def handler(signum, frame):
 
 def simulator_generator(thread_traces, cfg_dct, out_path, idx, origin_file_name):
     print(origin_file_name)
-    sys.exit()
+    # sys.exit()
     log_file = f'{out_path}/logger_{origin_file_name}.log'
     simulator = Simulator(thread_traces, cfg_dct, log_file)
     simulator.simulate_on()

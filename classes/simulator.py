@@ -4,9 +4,9 @@ import sys
 import ast
 import math
 from time import sleep
-import pickle
 import pdb
 import signal
+import copy
 
 from thread import thread
 from execution_macro import execution_macro
@@ -15,30 +15,25 @@ from logger import logger
 
 def handler(signum, frame):
     print("what do you want?")
-    print("1 - abort (default)")
+    print("1 - abort(default)")
 
 class Simulator:
     def __init__(self, threads_traces, cfg_dct,logger_path):
         signal.signal(signal.SIGINT, handler)
         self.threads = []
         for i, f in enumerate(threads_traces):
-            if os.path.isfile(f'{os.getcwd()}/trace_files/{f}.bindump'):
-                print(f'using store data: {os.getcwd()}/trace_files/{f}.bindump')
-                with open(f'{os.getcwd()}/trace_files/{f}.bindump', 'rb') as f:
-                    cur_thread = pickle.load(f)
-                    print('load finished')
+            if f in [t.bench for t in self.threads]:
+                print(f'copying data from previous thread: {f}')
+                cur_thread = copy.deepcopy([t for t in self.threads if t.bench==f][0])
+                print('copy finished')
                 cur_thread.thread_id = i
             else:
                 print(f'initiating: {os.getcwd()}/trace_files/{f}.trc')
                 cur_thread     = thread(f'{os.getcwd()}/trace_files/{f}.trc', i)
-                print('initialization finished, saving bindump')
-                with open(f'{os.getcwd()}/trace_files/{f}.bindump', 'wb') as f:
-                    pickle.dump(cur_thread, f)
-                print('save finished')
+                print('initialization finished')
 
             cur_thread.sim = self
             self.threads.append(cur_thread)
-
 
         self.cpi_per_thread = []
         self.usage_per_unit = []
@@ -81,10 +76,10 @@ class Simulator:
             #             print(c)
             #     sys.exit()
 
-            if self.cycle % 10000 == 0:
+            if self.cycle % 20000 == 0:
                 print(self.cycle)
 
-            if self.cycle % 30000 == 0:
+            if self.cycle % 80000 == 0:
                 print(self.execution_macro)
                 for t in self.threads:
                     print(t)
