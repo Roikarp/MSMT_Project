@@ -7,6 +7,7 @@ import signal
 import json
 import multiprocessing
 import pdb
+
 sys.path.insert(1, f'{os.getcwd()}/classes')
 from simulator import Simulator
 
@@ -28,7 +29,7 @@ def handler(signum, frame):
 
 
 def simulator_generator(thread_traces, cfg_dct, out_path, idx, origin_file_name):
-    log_file = f'{out_path}/logger_{idx}.log'
+    log_file = f'{out_path}/logger_{origin_file_name}.log'
     simulator = Simulator(thread_traces, cfg_dct, log_file)
     simulator.simulate_on()
     statistics_dict = simulator.calc_statitstics(to_stdout=True)
@@ -73,8 +74,10 @@ if num_of_simulators > 1:
     processes = []
     for k in range(num_of_simulators):
         p = multiprocessing.Process(target=simulator_generator, args=(threads_traces_list[k], \
-                                                                      cfg_dct, args.output_dir, k, files[k]))
+                                                                      cfg_dct, args.output_dir, k, (files[k]).split('.')[0]))
         processes.append(p)
+
+    print(f"number of processes is {len(processes)}")
 
     for p in processes:
         p.start()
