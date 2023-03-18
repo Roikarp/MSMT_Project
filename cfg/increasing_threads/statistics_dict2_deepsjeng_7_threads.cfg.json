@@ -1,0 +1,48 @@
+{
+    "num_threads": 7,
+    "threads": {
+        "thread0": {
+            "Name": "deepsjeng",
+            "CPI": 53.63017201007506
+        },
+        "thread1": {
+            "Name": "deepsjeng",
+            "CPI": 54.3698912754566
+        },
+        "thread2": {
+            "Name": "deepsjeng",
+            "CPI": 53.67377574139
+        },
+        "thread3": {
+            "Name": "deepsjeng",
+            "CPI": 53.26882428139279
+        },
+        "thread4": {
+            "Name": "deepsjeng",
+            "CPI": 53.015631526320455
+        },
+        "thread5": {
+            "Name": "deepsjeng",
+            "CPI": 52.99812674826281
+        },
+        "thread6": {
+            "Name": "deepsjeng",
+            "CPI": 53.05237510600327
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 48.454,
+            "unit alu utilization %": 0.413,
+            "unit alu_st_ld utilization %": 0.292,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 0.471,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 1.078,
+            "unit misc_st_ld utilization %": 36.321
+        },
+        "System CPI": 7.767130941381324,
+        "Jain's fairness index": 0.9999256358237819
+    }
+}

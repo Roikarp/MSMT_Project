@@ -1,0 +1,88 @@
+{
+    "num_threads": 17,
+    "threads": {
+        "thread0": {
+            "Name": "fotonik3d",
+            "CPI": 51.41736779208865
+        },
+        "thread1": {
+            "Name": "fotonik3d",
+            "CPI": 51.11146385331289
+        },
+        "thread2": {
+            "Name": "fotonik3d",
+            "CPI": 51.31043057349444
+        },
+        "thread3": {
+            "Name": "fotonik3d",
+            "CPI": 51.3838103400408
+        },
+        "thread4": {
+            "Name": "fotonik3d",
+            "CPI": 51.298033629878205
+        },
+        "thread5": {
+            "Name": "fotonik3d",
+            "CPI": 51.3500718226042
+        },
+        "thread6": {
+            "Name": "fotonik3d",
+            "CPI": 51.215528167738974
+        },
+        "thread7": {
+            "Name": "fotonik3d",
+            "CPI": 51.11020846661758
+        },
+        "thread8": {
+            "Name": "fotonik3d",
+            "CPI": 51.27013748898519
+        },
+        "thread9": {
+            "Name": "fotonik3d",
+            "CPI": 51.26492280578926
+        },
+        "thread10": {
+            "Name": "fotonik3d",
+            "CPI": 51.2832466231305
+        },
+        "thread11": {
+            "Name": "fotonik3d",
+            "CPI": 50.959030938039426
+        },
+        "thread12": {
+            "Name": "fotonik3d",
+            "CPI": 51.208877032458986
+        },
+        "thread13": {
+            "Name": "fotonik3d",
+            "CPI": 51.45556051808843
+        },
+        "thread14": {
+            "Name": "fotonik3d",
+            "CPI": 51.60387721352438
+        },
+        "thread15": {
+            "Name": "fotonik3d",
+            "CPI": 51.50705551464819
+        },
+        "thread16": {
+            "Name": "fotonik3d",
+            "CPI": 51.427097038977344
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 21.545,
+            "unit alu utilization %": 8.896,
+            "unit alu_st_ld utilization %": 22.877,
+            "unit fp utilization %": 0.031,
+            "unit fp_st_ld utilization %": 0.01,
+            "unit br utilization %": 1.754,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 19.539,
+            "unit misc_st_ld utilization %": 23.041
+        },
+        "System CPI": 3.035556981987899,
+        "Jain's fairness index": 0.9999909510575151
+    }
+}

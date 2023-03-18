@@ -1,0 +1,48 @@
+{
+    "num_threads": 7,
+    "threads": {
+        "thread0": {
+            "Name": "perl",
+            "CPI": 18.17260911980363
+        },
+        "thread1": {
+            "Name": "perl",
+            "CPI": 18.175420377421826
+        },
+        "thread2": {
+            "Name": "perl",
+            "CPI": 18.242963988629093
+        },
+        "thread3": {
+            "Name": "perl",
+            "CPI": 17.91297689104279
+        },
+        "thread4": {
+            "Name": "perl",
+            "CPI": 18.271663991776023
+        },
+        "thread5": {
+            "Name": "perl",
+            "CPI": 18.133681593605438
+        },
+        "thread6": {
+            "Name": "perl",
+            "CPI": 18.109051620144548
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 25.915,
+            "unit alu utilization %": 12.603,
+            "unit alu_st_ld utilization %": 24.585,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.099,
+            "unit br utilization %": 3.787,
+            "unit br_st_ld utilization %": 0.065,
+            "unit misc utilization %": 29.382,
+            "unit misc_st_ld utilization %": 30.393
+        },
+        "System CPI": 2.6102452058017405,
+        "Jain's fairness index": 0.9999637010521598
+    }
+}

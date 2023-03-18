@@ -1,0 +1,32 @@
+{
+    "num_threads": 3,
+    "threads": {
+        "thread0": {
+            "Name": "bwave",
+            "CPI": 11.536585365853659
+        },
+        "thread1": {
+            "Name": "bwave",
+            "CPI": 11.502414325409077
+        },
+        "thread2": {
+            "Name": "bwave",
+            "CPI": 11.533535041679531
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 9.341,
+            "unit alu utilization %": 9.065,
+            "unit alu_st_ld utilization %": 18.729,
+            "unit fp utilization %": 0.006,
+            "unit fp_st_ld utilization %": 0.017,
+            "unit br utilization %": 3.37,
+            "unit br_st_ld utilization %": 0.007,
+            "unit misc utilization %": 20.793,
+            "unit misc_st_ld utilization %": 22.238
+        },
+        "System CPI": 3.845532571781414,
+        "Jain's fairness index": 0.9999982017205722
+    }
+}

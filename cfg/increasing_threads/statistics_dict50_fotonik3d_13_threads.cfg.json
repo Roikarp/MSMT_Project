@@ -1,0 +1,72 @@
+{
+    "num_threads": 13,
+    "threads": {
+        "thread0": {
+            "Name": "fotonik3d",
+            "CPI": 157.5447533285854
+        },
+        "thread1": {
+            "Name": "fotonik3d",
+            "CPI": 157.96214526272587
+        },
+        "thread2": {
+            "Name": "fotonik3d",
+            "CPI": 158.75761379959684
+        },
+        "thread3": {
+            "Name": "fotonik3d",
+            "CPI": 158.16049636058568
+        },
+        "thread4": {
+            "Name": "fotonik3d",
+            "CPI": 158.68427024612822
+        },
+        "thread5": {
+            "Name": "fotonik3d",
+            "CPI": 158.87304902043624
+        },
+        "thread6": {
+            "Name": "fotonik3d",
+            "CPI": 157.90367321318638
+        },
+        "thread7": {
+            "Name": "fotonik3d",
+            "CPI": 159.8680998998105
+        },
+        "thread8": {
+            "Name": "fotonik3d",
+            "CPI": 158.4305131393117
+        },
+        "thread9": {
+            "Name": "fotonik3d",
+            "CPI": 157.8739664184059
+        },
+        "thread10": {
+            "Name": "fotonik3d",
+            "CPI": 158.11830812500753
+        },
+        "thread11": {
+            "Name": "fotonik3d",
+            "CPI": 158.16907886001232
+        },
+        "thread12": {
+            "Name": "fotonik3d",
+            "CPI": 158.38041838175826
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 11.416,
+            "unit alu utilization %": 2.515,
+            "unit alu_st_ld utilization %": 8.069,
+            "unit fp utilization %": 0.008,
+            "unit fp_st_ld utilization %": 0.004,
+            "unit br utilization %": 1.126,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 9.454,
+            "unit misc_st_ld utilization %": 10.316
+        },
+        "System CPI": 12.297569359650646,
+        "Jain's fairness index": 0.9999871987802303
+    }
+}

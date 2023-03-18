@@ -1,0 +1,56 @@
+{
+    "num_threads": 9,
+    "threads": {
+        "thread0": {
+            "Name": "fotonik3d",
+            "CPI": 35.10417295365933
+        },
+        "thread1": {
+            "Name": "fotonik3d",
+            "CPI": 35.063409099139335
+        },
+        "thread2": {
+            "Name": "fotonik3d",
+            "CPI": 35.48543630723175
+        },
+        "thread3": {
+            "Name": "fotonik3d",
+            "CPI": 34.78052460678633
+        },
+        "thread4": {
+            "Name": "fotonik3d",
+            "CPI": 34.87820334850259
+        },
+        "thread5": {
+            "Name": "fotonik3d",
+            "CPI": 35.294496819284674
+        },
+        "thread6": {
+            "Name": "fotonik3d",
+            "CPI": 35.35698852045435
+        },
+        "thread7": {
+            "Name": "fotonik3d",
+            "CPI": 35.21365715872192
+        },
+        "thread8": {
+            "Name": "fotonik3d",
+            "CPI": 34.82274905544222
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 15.046,
+            "unit alu utilization %": 8.397,
+            "unit alu_st_ld utilization %": 17.101,
+            "unit fp utilization %": 0.024,
+            "unit fp_st_ld utilization %": 0.007,
+            "unit br utilization %": 3.412,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 24.876,
+            "unit misc_st_ld utilization %": 23.078
+        },
+        "System CPI": 3.942830280034389,
+        "Jain's fairness index": 0.9999555069032867
+    }
+}

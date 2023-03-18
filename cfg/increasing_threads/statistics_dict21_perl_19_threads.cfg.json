@@ -1,0 +1,96 @@
+{
+    "num_threads": 19,
+    "threads": {
+        "thread0": {
+            "Name": "perl",
+            "CPI": 56.65700559104594
+        },
+        "thread1": {
+            "Name": "perl",
+            "CPI": 56.9517785400342
+        },
+        "thread2": {
+            "Name": "perl",
+            "CPI": 56.63817645886438
+        },
+        "thread3": {
+            "Name": "perl",
+            "CPI": 56.7516337812464
+        },
+        "thread4": {
+            "Name": "perl",
+            "CPI": 56.98305902592021
+        },
+        "thread5": {
+            "Name": "perl",
+            "CPI": 56.81375418279468
+        },
+        "thread6": {
+            "Name": "perl",
+            "CPI": 56.70601378355414
+        },
+        "thread7": {
+            "Name": "perl",
+            "CPI": 56.609780658967175
+        },
+        "thread8": {
+            "Name": "perl",
+            "CPI": 56.92556461172126
+        },
+        "thread9": {
+            "Name": "perl",
+            "CPI": 57.15033934396996
+        },
+        "thread10": {
+            "Name": "perl",
+            "CPI": 56.82059351102999
+        },
+        "thread11": {
+            "Name": "perl",
+            "CPI": 57.038224711793646
+        },
+        "thread12": {
+            "Name": "perl",
+            "CPI": 56.7176469354145
+        },
+        "thread13": {
+            "Name": "perl",
+            "CPI": 56.9478553670894
+        },
+        "thread14": {
+            "Name": "perl",
+            "CPI": 56.65555800316791
+        },
+        "thread15": {
+            "Name": "perl",
+            "CPI": 57.07143531485036
+        },
+        "thread16": {
+            "Name": "perl",
+            "CPI": 56.72607021850185
+        },
+        "thread17": {
+            "Name": "perl",
+            "CPI": 56.94008244957045
+        },
+        "thread18": {
+            "Name": "perl",
+            "CPI": 56.93648445940985
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 29.141,
+            "unit alu utilization %": 8.594,
+            "unit alu_st_ld utilization %": 22.867,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.1,
+            "unit br utilization %": 1.846,
+            "unit br_st_ld utilization %": 0.073,
+            "unit misc utilization %": 18.704,
+            "unit misc_st_ld utilization %": 22.248
+        },
+        "System CPI": 3.0079275035623803,
+        "Jain's fairness index": 0.9999922528362983
+    }
+}

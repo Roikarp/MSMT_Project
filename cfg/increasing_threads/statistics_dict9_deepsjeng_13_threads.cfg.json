@@ -1,0 +1,72 @@
+{
+    "num_threads": 13,
+    "threads": {
+        "thread0": {
+            "Name": "deepsjeng",
+            "CPI": 175.6607768931867
+        },
+        "thread1": {
+            "Name": "deepsjeng",
+            "CPI": 176.02044122672675
+        },
+        "thread2": {
+            "Name": "deepsjeng",
+            "CPI": 175.89171845532675
+        },
+        "thread3": {
+            "Name": "deepsjeng",
+            "CPI": 175.3414507575278
+        },
+        "thread4": {
+            "Name": "deepsjeng",
+            "CPI": 175.832622425861
+        },
+        "thread5": {
+            "Name": "deepsjeng",
+            "CPI": 176.23477666535877
+        },
+        "thread6": {
+            "Name": "deepsjeng",
+            "CPI": 175.58474565544824
+        },
+        "thread7": {
+            "Name": "deepsjeng",
+            "CPI": 175.7222144873239
+        },
+        "thread8": {
+            "Name": "deepsjeng",
+            "CPI": 175.78114597440734
+        },
+        "thread9": {
+            "Name": "deepsjeng",
+            "CPI": 175.67400356930398
+        },
+        "thread10": {
+            "Name": "deepsjeng",
+            "CPI": 174.88522535977825
+        },
+        "thread11": {
+            "Name": "deepsjeng",
+            "CPI": 175.4627691217234
+        },
+        "thread12": {
+            "Name": "deepsjeng",
+            "CPI": 176.0369334362778
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 37.902,
+            "unit alu utilization %": 0.186,
+            "unit alu_st_ld utilization %": 0.17,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 0.191,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 0.544,
+            "unit misc_st_ld utilization %": 19.039
+        },
+        "System CPI": 13.556543675292646,
+        "Jain's fairness index": 0.9999964316464451
+    }
+}

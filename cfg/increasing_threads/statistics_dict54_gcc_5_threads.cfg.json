@@ -1,0 +1,40 @@
+{
+    "num_threads": 5,
+    "threads": {
+        "thread0": {
+            "Name": "gcc",
+            "CPI": 12.461377442127729
+        },
+        "thread1": {
+            "Name": "gcc",
+            "CPI": 12.490409347124173
+        },
+        "thread2": {
+            "Name": "gcc",
+            "CPI": 12.498891807584961
+        },
+        "thread3": {
+            "Name": "gcc",
+            "CPI": 12.568037541728232
+        },
+        "thread4": {
+            "Name": "gcc",
+            "CPI": 12.5629617468396
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 25.22,
+            "unit alu utilization %": 14.782,
+            "unit alu_st_ld utilization %": 22.243,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 4.231,
+            "unit br_st_ld utilization %": 0.039,
+            "unit misc utilization %": 30.4,
+            "unit misc_st_ld utilization %": 28.966
+        },
+        "System CPI": 2.5136184534559187,
+        "Jain's fairness index": 0.9999887196355202
+    }
+}
