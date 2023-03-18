@@ -29,6 +29,8 @@ def handler(signum, frame):
 
 
 def simulator_generator(thread_traces, cfg_dct, out_path, idx, origin_file_name):
+    print(origin_file_name)
+    sys.exit()
     log_file = f'{out_path}/logger_{origin_file_name}.log'
     simulator = Simulator(thread_traces, cfg_dct, log_file)
     simulator.simulate_on()
@@ -56,17 +58,29 @@ args = parser.parse_args()
 if os.path.isdir(args.threads_path):
     files = os.listdir(args.threads_path)
     num_of_simulators = len(files)
-    threads_traces_list = list()
+    threads_traces_list = []
+    chosen_file_name = []
     for file_path in files:
+        if 'x264' not in file_path:
+            continue
+        if '21' in file_path:
+            continue
+        if '25' in file_path:
+            continue
         found = False
         for i in range(130):
             if os.path.isfile(f'{args.output_dir}/statistics_dict{i}_{file_path}.json'):
                 found = True
+            if os.path.isfile(f'{args.output_dir}/statistics_dict{i}_{file_path[:-4]}.json'):
+                found = True
+
         if not found:
             # print(f'{args.output_dir}/{file_path}.json')
+            print(file_path)
             with open(f'{args.threads_path}/{file_path}') as f:
                 threads_traces = ast.literal_eval(f.read())
                 threads_traces_list.append(threads_traces)
+                chosen_file_name.append(file_path)
         if len(threads_traces_list)>3:
             break
     print(len(threads_traces_list))
@@ -84,7 +98,7 @@ if len(threads_traces_list) > 1:
     processes = []
     for k in range(len(threads_traces_list)):
         p = multiprocessing.Process(target=simulator_generator, args=(threads_traces_list[k], \
-                                                                      cfg_dct, args.output_dir, k, (files[k]).split('.')[0]))
+                                                                      cfg_dct, args.output_dir, k, (chosen_file_name[k]).split('.')[0]))
         processes.append(p)
 
     print(f"number of processes is {len(processes)}")
