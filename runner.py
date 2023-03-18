@@ -58,9 +58,19 @@ if os.path.isdir(args.threads_path):
     num_of_simulators = len(files)
     threads_traces_list = list()
     for file_path in files:
-        with open(f'{args.threads_path}/{file_path}') as f:
-            threads_traces = ast.literal_eval(f.read())
-            threads_traces_list.append(threads_traces)
+        found = False
+        for i in range(130):
+            if os.path.isfile(f'{args.output_dir}/statistics_dict{i}_{file_path}.json'):
+                found = True
+        if not found:
+            # print(f'{args.output_dir}/{file_path}.json')
+            with open(f'{args.threads_path}/{file_path}') as f:
+                threads_traces = ast.literal_eval(f.read())
+                threads_traces_list.append(threads_traces)
+        if len(threads_traces_list)>3:
+            break
+    print(len(threads_traces_list))
+    # sys.exit()
 else:
     num_of_simulators = 1
     with open(args.threads_path) as f:
@@ -70,9 +80,9 @@ else:
 with open(args.config_path) as f:
     cfg_dct = ast.literal_eval(f.read())
 
-if num_of_simulators > 1:
+if len(threads_traces_list) > 1:
     processes = []
-    for k in range(num_of_simulators):
+    for k in range(len(threads_traces_list)):
         p = multiprocessing.Process(target=simulator_generator, args=(threads_traces_list[k], \
                                                                       cfg_dct, args.output_dir, k, (files[k]).split('.')[0]))
         processes.append(p)
