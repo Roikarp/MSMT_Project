@@ -1,0 +1,112 @@
+{
+    "num_threads": 23,
+    "threads": {
+        "thread0": {
+            "Name": "mcf",
+            "CPI": 53.77870729129975
+        },
+        "thread1": {
+            "Name": "mcf",
+            "CPI": 53.31194963015146
+        },
+        "thread2": {
+            "Name": "mcf",
+            "CPI": 53.83280864741106
+        },
+        "thread3": {
+            "Name": "mcf",
+            "CPI": 53.598846424797465
+        },
+        "thread4": {
+            "Name": "mcf",
+            "CPI": 53.46945447340613
+        },
+        "thread5": {
+            "Name": "mcf",
+            "CPI": 53.618846865093346
+        },
+        "thread6": {
+            "Name": "mcf",
+            "CPI": 53.68272278971469
+        },
+        "thread7": {
+            "Name": "mcf",
+            "CPI": 53.3582467418105
+        },
+        "thread8": {
+            "Name": "mcf",
+            "CPI": 53.40149480450863
+        },
+        "thread9": {
+            "Name": "mcf",
+            "CPI": 53.291123635082776
+        },
+        "thread10": {
+            "Name": "mcf",
+            "CPI": 53.58365621697781
+        },
+        "thread11": {
+            "Name": "mcf",
+            "CPI": 53.613519284959494
+        },
+        "thread12": {
+            "Name": "mcf",
+            "CPI": 53.48642787953505
+        },
+        "thread13": {
+            "Name": "mcf",
+            "CPI": 53.53427703416696
+        },
+        "thread14": {
+            "Name": "mcf",
+            "CPI": 53.610239080662204
+        },
+        "thread15": {
+            "Name": "mcf",
+            "CPI": 53.29265366326171
+        },
+        "thread16": {
+            "Name": "mcf",
+            "CPI": 53.32663349771046
+        },
+        "thread17": {
+            "Name": "mcf",
+            "CPI": 53.471127597745685
+        },
+        "thread18": {
+            "Name": "mcf",
+            "CPI": 53.74853601620289
+        },
+        "thread19": {
+            "Name": "mcf",
+            "CPI": 53.41764265586474
+        },
+        "thread20": {
+            "Name": "mcf",
+            "CPI": 53.676448573441355
+        },
+        "thread21": {
+            "Name": "mcf",
+            "CPI": 53.38557810848891
+        },
+        "thread22": {
+            "Name": "mcf",
+            "CPI": 53.33971028531173
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 16.322,
+            "unit alu utilization %": 10.47,
+            "unit alu_st_ld utilization %": 36.851,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 3.366,
+            "unit br_st_ld utilization %": 0.072,
+            "unit misc utilization %": 21.862,
+            "unit misc_st_ld utilization %": 30.678
+        },
+        "System CPI": 2.3405583334609554,
+        "Jain's fairness index": 0.9999909592687142
+    }
+}

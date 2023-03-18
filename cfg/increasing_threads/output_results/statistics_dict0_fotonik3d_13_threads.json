@@ -1,0 +1,72 @@
+{
+    "num_threads": 13,
+    "threads": {
+        "thread0": {
+            "Name": "fotonik3d",
+            "CPI": 44.72930724382265
+        },
+        "thread1": {
+            "Name": "fotonik3d",
+            "CPI": 44.79268012988424
+        },
+        "thread2": {
+            "Name": "fotonik3d",
+            "CPI": 44.65216131719035
+        },
+        "thread3": {
+            "Name": "fotonik3d",
+            "CPI": 44.79642214791835
+        },
+        "thread4": {
+            "Name": "fotonik3d",
+            "CPI": 44.60194584937774
+        },
+        "thread5": {
+            "Name": "fotonik3d",
+            "CPI": 44.83858624144466
+        },
+        "thread6": {
+            "Name": "fotonik3d",
+            "CPI": 44.859384619098776
+        },
+        "thread7": {
+            "Name": "fotonik3d",
+            "CPI": 44.61175959344785
+        },
+        "thread8": {
+            "Name": "fotonik3d",
+            "CPI": 44.68899001726157
+        },
+        "thread9": {
+            "Name": "fotonik3d",
+            "CPI": 44.66373743104426
+        },
+        "thread10": {
+            "Name": "fotonik3d",
+            "CPI": 44.69978151443091
+        },
+        "thread11": {
+            "Name": "fotonik3d",
+            "CPI": 44.64250449645716
+        },
+        "thread12": {
+            "Name": "fotonik3d",
+            "CPI": 44.8754270125418
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 18.296,
+            "unit alu utilization %": 8.013,
+            "unit alu_st_ld utilization %": 19.196,
+            "unit fp utilization %": 0.028,
+            "unit fp_st_ld utilization %": 0.008,
+            "unit br utilization %": 1.749,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 20.325,
+            "unit misc_st_ld utilization %": 21.182
+        },
+        "System CPI": 3.451999565443067,
+        "Jain's fairness index": 0.9999958136944856
+    }
+}

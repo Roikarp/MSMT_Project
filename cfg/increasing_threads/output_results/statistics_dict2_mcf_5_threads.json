@@ -1,0 +1,40 @@
+{
+    "num_threads": 5,
+    "threads": {
+        "thread0": {
+            "Name": "mcf",
+            "CPI": 13.076523423740754
+        },
+        "thread1": {
+            "Name": "mcf",
+            "CPI": 13.305862539626629
+        },
+        "thread2": {
+            "Name": "mcf",
+            "CPI": 13.371796847481507
+        },
+        "thread3": {
+            "Name": "mcf",
+            "CPI": 13.290914494540331
+        },
+        "thread4": {
+            "Name": "mcf",
+            "CPI": 13.191891951391336
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 9.649,
+            "unit alu utilization %": 10.882,
+            "unit alu_st_ld utilization %": 29.442,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 4.779,
+            "unit br_st_ld utilization %": 0.048,
+            "unit misc utilization %": 29.584,
+            "unit misc_st_ld utilization %": 32.329
+        },
+        "System CPI": 2.674365973934484,
+        "Jain's fairness index": 0.9999390085854016
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "num_threads": 15,
+    "threads": {
+        "thread0": {
+            "Name": "mcf",
+            "CPI": 48.83792708700246
+        },
+        "thread1": {
+            "Name": "mcf",
+            "CPI": 48.93965744980627
+        },
+        "thread2": {
+            "Name": "mcf",
+            "CPI": 49.1271464424093
+        },
+        "thread3": {
+            "Name": "mcf",
+            "CPI": 49.39740005283551
+        },
+        "thread4": {
+            "Name": "mcf",
+            "CPI": 48.990027298344486
+        },
+        "thread5": {
+            "Name": "mcf",
+            "CPI": 49.27662689327228
+        },
+        "thread6": {
+            "Name": "mcf",
+            "CPI": 48.924775449101794
+        },
+        "thread7": {
+            "Name": "mcf",
+            "CPI": 49.06563710813667
+        },
+        "thread8": {
+            "Name": "mcf",
+            "CPI": 48.684968298696724
+        },
+        "thread9": {
+            "Name": "mcf",
+            "CPI": 49.31715612891863
+        },
+        "thread10": {
+            "Name": "mcf",
+            "CPI": 49.106727721028534
+        },
+        "thread11": {
+            "Name": "mcf",
+            "CPI": 48.80936289186333
+        },
+        "thread12": {
+            "Name": "mcf",
+            "CPI": 49.25614212750968
+        },
+        "thread13": {
+            "Name": "mcf",
+            "CPI": 49.090700951039096
+        },
+        "thread14": {
+            "Name": "mcf",
+            "CPI": 49.018954737583655
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 12.038,
+            "unit alu utilization %": 7.511,
+            "unit alu_st_ld utilization %": 25.615,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 2.396,
+            "unit br_st_ld utilization %": 0.05,
+            "unit misc utilization %": 16.248,
+            "unit misc_st_ld utilization %": 20.967
+        },
+        "System CPI": 3.293162938828226,
+        "Jain's fairness index": 0.9999843440783582
+    }
+}

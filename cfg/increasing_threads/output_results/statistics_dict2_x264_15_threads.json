@@ -1,0 +1,80 @@
+{
+    "num_threads": 15,
+    "threads": {
+        "thread0": {
+            "Name": "x264",
+            "CPI": 52.36833020256892
+        },
+        "thread1": {
+            "Name": "x264",
+            "CPI": 51.96199928923186
+        },
+        "thread2": {
+            "Name": "x264",
+            "CPI": 52.03041072244504
+        },
+        "thread3": {
+            "Name": "x264",
+            "CPI": 52.10931867797127
+        },
+        "thread4": {
+            "Name": "x264",
+            "CPI": 51.85585368330202
+        },
+        "thread5": {
+            "Name": "x264",
+            "CPI": 51.919860892521704
+        },
+        "thread6": {
+            "Name": "x264",
+            "CPI": 52.055947606234454
+        },
+        "thread7": {
+            "Name": "x264",
+            "CPI": 52.02264304208763
+        },
+        "thread8": {
+            "Name": "x264",
+            "CPI": 52.01544651469767
+        },
+        "thread9": {
+            "Name": "x264",
+            "CPI": 52.17572472965426
+        },
+        "thread10": {
+            "Name": "x264",
+            "CPI": 52.26278113418287
+        },
+        "thread11": {
+            "Name": "x264",
+            "CPI": 51.84990100015231
+        },
+        "thread12": {
+            "Name": "x264",
+            "CPI": 51.837691018936894
+        },
+        "thread13": {
+            "Name": "x264",
+            "CPI": 51.92177742803472
+        },
+        "thread14": {
+            "Name": "x264",
+            "CPI": 52.002563842209476
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 1.108,
+            "unit alu utilization %": 6.694,
+            "unit alu_st_ld utilization %": 18.989,
+            "unit fp utilization %": 11.419,
+            "unit fp_st_ld utilization %": 38.481,
+            "unit br utilization %": 0.579,
+            "unit br_st_ld utilization %": 0.001,
+            "unit misc utilization %": 21.979,
+            "unit misc_st_ld utilization %": 25.356
+        },
+        "System CPI": 3.491222859657139,
+        "Jain's fairness index": 0.9999920096701189
+    }
+}
