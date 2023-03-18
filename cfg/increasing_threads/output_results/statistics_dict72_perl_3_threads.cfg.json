@@ -1,0 +1,32 @@
+{
+    "num_threads": 3,
+    "threads": {
+        "thread0": {
+            "Name": "perl",
+            "CPI": 10.22121870115702
+        },
+        "thread1": {
+            "Name": "perl",
+            "CPI": 10.5889165119426
+        },
+        "thread2": {
+            "Name": "perl",
+            "CPI": 10.674869664642141
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 18.145,
+            "unit alu utilization %": 9.64,
+            "unit alu_st_ld utilization %": 18.028,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.071,
+            "unit br utilization %": 3.058,
+            "unit br_st_ld utilization %": 0.047,
+            "unit misc utilization %": 20.402,
+            "unit misc_st_ld utilization %": 21.541
+        },
+        "System CPI": 3.558300377981279,
+        "Jain's fairness index": 0.9996404951019544
+    }
+}

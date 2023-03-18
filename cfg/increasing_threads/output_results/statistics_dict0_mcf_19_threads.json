@@ -1,0 +1,96 @@
+{
+    "num_threads": 19,
+    "threads": {
+        "thread0": {
+            "Name": "mcf",
+            "CPI": 51.97695051074322
+        },
+        "thread1": {
+            "Name": "mcf",
+            "CPI": 52.103898820007046
+        },
+        "thread2": {
+            "Name": "mcf",
+            "CPI": 51.84033770693906
+        },
+        "thread3": {
+            "Name": "mcf",
+            "CPI": 52.15296979570271
+        },
+        "thread4": {
+            "Name": "mcf",
+            "CPI": 51.644769284959494
+        },
+        "thread5": {
+            "Name": "mcf",
+            "CPI": 52.44620685100387
+        },
+        "thread6": {
+            "Name": "mcf",
+            "CPI": 52.27598846424797
+        },
+        "thread7": {
+            "Name": "mcf",
+            "CPI": 51.975475519549136
+        },
+        "thread8": {
+            "Name": "mcf",
+            "CPI": 52.10077271926735
+        },
+        "thread9": {
+            "Name": "mcf",
+            "CPI": 52.01785399788658
+        },
+        "thread10": {
+            "Name": "mcf",
+            "CPI": 51.95491370200775
+        },
+        "thread11": {
+            "Name": "mcf",
+            "CPI": 51.80743659739345
+        },
+        "thread12": {
+            "Name": "mcf",
+            "CPI": 52.170460549489256
+        },
+        "thread13": {
+            "Name": "mcf",
+            "CPI": 51.892193554068335
+        },
+        "thread14": {
+            "Name": "mcf",
+            "CPI": 52.038944170482566
+        },
+        "thread15": {
+            "Name": "mcf",
+            "CPI": 51.988409210989786
+        },
+        "thread16": {
+            "Name": "mcf",
+            "CPI": 52.07488332159211
+        },
+        "thread17": {
+            "Name": "mcf",
+            "CPI": 51.89059748150758
+        },
+        "thread18": {
+            "Name": "mcf",
+            "CPI": 52.19213411412469
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 14.182,
+            "unit alu utilization %": 8.906,
+            "unit alu_st_ld utilization %": 31.05,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 2.809,
+            "unit br_st_ld utilization %": 0.061,
+            "unit misc utilization %": 18.204,
+            "unit misc_st_ld utilization %": 25.123
+        },
+        "System CPI": 2.7603400011123265,
+        "Jain's fairness index": 0.999988482104569
+    }
+}

@@ -1,0 +1,80 @@
+{
+    "num_threads": 15,
+    "threads": {
+        "thread0": {
+            "Name": "perl",
+            "CPI": 54.0906840377212
+        },
+        "thread1": {
+            "Name": "perl",
+            "CPI": 54.2522579223967
+        },
+        "thread2": {
+            "Name": "perl",
+            "CPI": 54.35989342396492
+        },
+        "thread3": {
+            "Name": "perl",
+            "CPI": 53.96957967502701
+        },
+        "thread4": {
+            "Name": "perl",
+            "CPI": 54.27401369963601
+        },
+        "thread5": {
+            "Name": "perl",
+            "CPI": 53.97509729259108
+        },
+        "thread6": {
+            "Name": "perl",
+            "CPI": 54.22537264898092
+        },
+        "thread7": {
+            "Name": "perl",
+            "CPI": 54.253149552611426
+        },
+        "thread8": {
+            "Name": "perl",
+            "CPI": 54.18711646788558
+        },
+        "thread9": {
+            "Name": "perl",
+            "CPI": 54.16309490092415
+        },
+        "thread10": {
+            "Name": "perl",
+            "CPI": 54.24902707408923
+        },
+        "thread11": {
+            "Name": "perl",
+            "CPI": 54.3339102705311
+        },
+        "thread12": {
+            "Name": "perl",
+            "CPI": 54.469868143625895
+        },
+        "thread13": {
+            "Name": "perl",
+            "CPI": 54.03455329326242
+        },
+        "thread14": {
+            "Name": "perl",
+            "CPI": 54.171969244002476
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 24.427,
+            "unit alu utilization %": 7.14,
+            "unit alu_st_ld utilization %": 18.367,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.081,
+            "unit br utilization %": 1.558,
+            "unit br_st_ld utilization %": 0.059,
+            "unit misc utilization %": 16.121,
+            "unit misc_st_ld utilization %": 17.821
+        },
+        "System CPI": 3.63135741084572,
+        "Jain's fairness index": 0.9999937404257263
+    }
+}

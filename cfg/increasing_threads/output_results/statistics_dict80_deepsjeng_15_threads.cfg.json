@@ -1,0 +1,80 @@
+{
+    "num_threads": 15,
+    "threads": {
+        "thread0": {
+            "Name": "deepsjeng",
+            "CPI": 209.16355512802664
+        },
+        "thread1": {
+            "Name": "deepsjeng",
+            "CPI": 208.98973508676445
+        },
+        "thread2": {
+            "Name": "deepsjeng",
+            "CPI": 209.20077967775006
+        },
+        "thread3": {
+            "Name": "deepsjeng",
+            "CPI": 209.13193767640843
+        },
+        "thread4": {
+            "Name": "deepsjeng",
+            "CPI": 209.19689394610603
+        },
+        "thread5": {
+            "Name": "deepsjeng",
+            "CPI": 209.61502145379524
+        },
+        "thread6": {
+            "Name": "deepsjeng",
+            "CPI": 208.918386978369
+        },
+        "thread7": {
+            "Name": "deepsjeng",
+            "CPI": 209.23197944485932
+        },
+        "thread8": {
+            "Name": "deepsjeng",
+            "CPI": 209.23272621413292
+        },
+        "thread9": {
+            "Name": "deepsjeng",
+            "CPI": 209.18422418266735
+        },
+        "thread10": {
+            "Name": "deepsjeng",
+            "CPI": 209.13902565595453
+        },
+        "thread11": {
+            "Name": "deepsjeng",
+            "CPI": 209.36001873251737
+        },
+        "thread12": {
+            "Name": "deepsjeng",
+            "CPI": 209.35550014555673
+        },
+        "thread13": {
+            "Name": "deepsjeng",
+            "CPI": 209.1469996329439
+        },
+        "thread14": {
+            "Name": "deepsjeng",
+            "CPI": 209.4520485526599
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 32.935,
+            "unit alu utilization %": 0.172,
+            "unit alu_st_ld utilization %": 0.169,
+            "unit fp utilization %": 0.0,
+            "unit fp_st_ld utilization %": 0.0,
+            "unit br utilization %": 0.178,
+            "unit br_st_ld utilization %": 0.0,
+            "unit misc utilization %": 0.357,
+            "unit misc_st_ld utilization %": 23.367
+        },
+        "System CPI": 13.974354171149391,
+        "Jain's fairness index": 0.9999993652285362
+    }
+}

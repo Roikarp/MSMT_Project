@@ -1,0 +1,23 @@
+{
+    "num_threads": 1,
+    "threads": {
+        "thread0": {
+            "Name": "x264",
+            "CPI": 11.326749897666803
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 0.342,
+            "unit alu utilization %": 2.851,
+            "unit alu_st_ld utilization %": 6.75,
+            "unit fp utilization %": 2.747,
+            "unit fp_st_ld utilization %": 8.563,
+            "unit br utilization %": 0.083,
+            "unit br_st_ld utilization %": 0.001,
+            "unit misc utilization %": 7.575,
+            "unit misc_st_ld utilization %": 7.744
+        },
+        "Jain's fairness index": 1.0
+    }
+}
