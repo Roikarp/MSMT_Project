@@ -64,7 +64,7 @@ class Simulator:
     def simulate_on(self):
         self.cycle = 0
         self.sim_done = False
-        while set([t.is_done() for t in self.threads]) != {True}:
+        while set([t.is_done() for t in self.threads]) == {False}:
             # run all parts for 1 cycle
             self.cycle += 1
             # sleep(0.3)

@@ -236,6 +236,7 @@ class thread:
         self.state = 'done'
 
     def get_cpi(self):
+        end = None
         for l in self.log:
             if l['event'] in ['context_switch_delay']:
                 start = l['cycle']
@@ -244,9 +245,12 @@ class thread:
             if l['event'] in ['done']:
                 end = l['cycle']
                 break
+        # In case the thread hasnt finished    
+        if end is None:
+            end = self.get_cycle()
 
-        return (end-start)/self.cmd_to_run
-
+        return (end-start)/len(self.done_cmds)
+        
     def get_cycle(self):
         return self.sim.cycle
 
