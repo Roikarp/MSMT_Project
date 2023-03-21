@@ -1,0 +1,104 @@
+{
+    "num_threads": 21,
+    "threads": {
+        "thread0": {
+            "Name": "bwave",
+            "CPI": 55.19600508116867
+        },
+        "thread1": {
+            "Name": "deepsjeng",
+            "CPI": 170.78796694624123
+        },
+        "thread2": {
+            "Name": "fotonik3d",
+            "CPI": 52.72221691443421
+        },
+        "thread3": {
+            "Name": "gcc",
+            "CPI": 56.73906516687573
+        },
+        "thread4": {
+            "Name": "mcf",
+            "CPI": 51.820629360779044
+        },
+        "thread5": {
+            "Name": "perl",
+            "CPI": 58.066070395117585
+        },
+        "thread6": {
+            "Name": "x264",
+            "CPI": 57.227236902144604
+        },
+        "thread7": {
+            "Name": "bwave",
+            "CPI": 55.183621836218364
+        },
+        "thread8": {
+            "Name": "deepsjeng",
+            "CPI": 170.75023206881613
+        },
+        "thread9": {
+            "Name": "fotonik3d",
+            "CPI": 52.88417491638476
+        },
+        "thread10": {
+            "Name": "gcc",
+            "CPI": 56.623368494500085
+        },
+        "thread11": {
+            "Name": "mcf",
+            "CPI": 51.84604832951257
+        },
+        "thread12": {
+            "Name": "perl",
+            "CPI": 58.263841963003635
+        },
+        "thread13": {
+            "Name": "x264",
+            "CPI": 57.4258954773451
+        },
+        "thread14": {
+            "Name": "bwave",
+            "CPI": 55.41223665977145
+        },
+        "thread15": {
+            "Name": "deepsjeng",
+            "CPI": 170.81767528246402
+        },
+        "thread16": {
+            "Name": "fotonik3d",
+            "CPI": 52.632088968582494
+        },
+        "thread17": {
+            "Name": "gcc",
+            "CPI": 56.68361204700469
+        },
+        "thread18": {
+            "Name": "mcf",
+            "CPI": 51.71948339206718
+        },
+        "thread19": {
+            "Name": "perl",
+            "CPI": 57.97345197823209
+        },
+        "thread20": {
+            "Name": "x264",
+            "CPI": 57.33716049126161
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 27.971,
+            "unit alu utilization %": 8.607,
+            "unit alu_st_ld utilization %": 22.995,
+            "unit fp utilization %": 2.179,
+            "unit fp_st_ld utilization %": 9.59,
+            "unit br utilization %": 1.808,
+            "unit br_st_ld utilization %": 0.027,
+            "unit misc utilization %": 20.344,
+            "unit misc_st_ld utilization %": 21.979
+        },
+        "System CPI": 2.3749838607219034,
+        "Jain's fairness index": 0.9340147161786106
+    }
+}

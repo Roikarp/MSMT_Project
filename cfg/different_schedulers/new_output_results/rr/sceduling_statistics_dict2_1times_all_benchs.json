@@ -1,0 +1,48 @@
+{
+    "num_threads": 7,
+    "threads": {
+        "thread0": {
+            "Name": "bwave",
+            "CPI": 17.605699965397562
+        },
+        "thread1": {
+            "Name": "deepsjeng",
+            "CPI": 44.066899375360876
+        },
+        "thread2": {
+            "Name": "fotonik3d",
+            "CPI": 17.018406649097912
+        },
+        "thread3": {
+            "Name": "gcc",
+            "CPI": 17.228646773928748
+        },
+        "thread4": {
+            "Name": "mcf",
+            "CPI": 17.694530509010434
+        },
+        "thread5": {
+            "Name": "perl",
+            "CPI": 17.998713619552984
+        },
+        "thread6": {
+            "Name": "x264",
+            "CPI": 18.917771793629512
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 24.172,
+            "unit alu utilization %": 11.445,
+            "unit alu_st_ld utilization %": 23.328,
+            "unit fp utilization %": 2.203,
+            "unit fp_st_ld utilization %": 6.425,
+            "unit br utilization %": 3.193,
+            "unit br_st_ld utilization %": 0.022,
+            "unit misc utilization %": 27.949,
+            "unit misc_st_ld utilization %": 28.829
+        },
+        "System CPI": 2.1678781884757807,
+        "Jain's fairness index": 0.9492378303334577
+    }
+}

@@ -1,0 +1,76 @@
+{
+    "num_threads": 14,
+    "threads": {
+        "thread0": {
+            "Name": "bwave",
+            "CPI": 50.59778078977181
+        },
+        "thread1": {
+            "Name": "deepsjeng",
+            "CPI": 152.3650817824617
+        },
+        "thread2": {
+            "Name": "fotonik3d",
+            "CPI": 48.0301971214318
+        },
+        "thread3": {
+            "Name": "gcc",
+            "CPI": 51.32876374979478
+        },
+        "thread4": {
+            "Name": "mcf",
+            "CPI": 47.65179660112788
+        },
+        "thread5": {
+            "Name": "perl",
+            "CPI": 52.7594000822672
+        },
+        "thread6": {
+            "Name": "x264",
+            "CPI": 52.9801097248406
+        },
+        "thread7": {
+            "Name": "bwave",
+            "CPI": 50.44599187180444
+        },
+        "thread8": {
+            "Name": "deepsjeng",
+            "CPI": 152.1095298911391
+        },
+        "thread9": {
+            "Name": "fotonik3d",
+            "CPI": 48.00093079491805
+        },
+        "thread10": {
+            "Name": "gcc",
+            "CPI": 51.3657647481645
+        },
+        "thread11": {
+            "Name": "mcf",
+            "CPI": 47.478634750090166
+        },
+        "thread12": {
+            "Name": "perl",
+            "CPI": 52.60103261898252
+        },
+        "thread13": {
+            "Name": "x264",
+            "CPI": 52.701328529135985
+        }
+    },
+    "system": {
+        "Units Utilization": {
+            "unit st_ld utilization %": 20.463,
+            "unit alu utilization %": 6.368,
+            "unit alu_st_ld utilization %": 15.939,
+            "unit fp utilization %": 1.581,
+            "unit fp_st_ld utilization %": 6.628,
+            "unit br utilization %": 1.391,
+            "unit br_st_ld utilization %": 0.018,
+            "unit misc utilization %": 15.966,
+            "unit misc_st_ld utilization %": 16.192
+        },
+        "System CPI": 3.2293404328941726,
+        "Jain's fairness index": 0.9356418272196136
+    }
+}
